@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ManageProducts_Application extends Application{
+public class ManageProducts_Application extends Application {
     private ArrayList<Product> products = new ArrayList<Product>();
 
     @Override
@@ -30,12 +30,15 @@ public class ManageProducts_Application extends Application{
         saveProduct(new Product("Lizipadol", "Pastillas para chupar", "Boehringer", "20mg", 13.01, 51, R.drawable.lizipadol));
     }
 
-    private void saveProduct(Product p){
+    private void saveProduct(Product p) {
         products.add(p);
     }
 
-    public List<Product> getProducts(){
-        Collections.sort(products);
+    public List<Product> getProducts() {
+        // Collections.sort(products, Product.PRICE_COMPARATOR);
+
+        // Lambda
+        Collections.sort(products, (p1, p2) -> Double.compare(p1.getmPrice(), p2.getmPrice()));
         return this.products;
     }
 
