@@ -16,4 +16,7 @@
     <string name="txvStock">Stock</string>
     <string name="txvPrice">Price</string>
     <string name="btnAddMed">Add</string>
+    <string name="action_sort_alphabetically">Sort alphabetically</string>
+    <string name="action_settings_account">Account settings</string>
+    <string name="action_settings_general">General settings</string>
 </resources>

@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapterRecycler;
+import com.barranquero.manageproductsrecycler.model.Product;
 
 
 /**
@@ -19,7 +22,8 @@ import com.barranquero.manageproductsrecycler.adapter.ProductAdapterRecycler;
 public class Product_Activity extends AppCompatActivity{
     private ProductAdapterRecycler mAdapter;
     private RecyclerView mRcvProduct;
-    private Button mBtnAddProduct;
+    private static final int ADD_PRODUCT = 0;
+    private static final int EDIT_PRODUCT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,22 +34,53 @@ public class Product_Activity extends AppCompatActivity{
         mRcvProduct = (RecyclerView)findViewById(R.id.rcvProduct);
         mRcvProduct.setLayoutManager(new LinearLayoutManager(this));
         mRcvProduct.setAdapter(mAdapter);
+    }
 
-        mBtnAddProduct = (Button)findViewById(R.id.btnAddProduct);
-        mBtnAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(com.barranquero.manageproductsrecycler.Product_Activity.this, AddProduct_Activity.class);
-                startActivity(intent);
-            }
-        });
+    /**
+     * Method which inflates the ActionBar menu
+     * @param menu The Activity menu
+     * @return true for success
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_product, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     *
+     * @param item The item that has been tapped on
+     * @return true when the event controlled by this has been consumed, false when it hasn't and gets propagated
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add_product:
+                Intent intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
+                startActivityForResult(intent, ADD_PRODUCT);
+                break;
+            case R.id.action_sort_alphabetically:
+                mAdapter.getAllProducts(3);
+                break;
+            case R.id.action_settings_general:
+                break;
+            case R.id.action_settings_account:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mAdapter = new ProductAdapterRecycler(this);
-        mRcvProduct.setLayoutManager(new LinearLayoutManager(this));
-        mRcvProduct.setAdapter(mAdapter);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_PRODUCT){
+            if (resultCode == RESULT_OK) {
+                // Adding the product
+
+            }
+        } else if (requestCode == EDIT_PRODUCT) {
+            if (resultCode == RESULT_OK) {
+                // Editing the product
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.barranquero.manageproductsrecycler.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.barranquero.manageproductsrecycler.ManageProducts_Application;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public ProductAdapterRecycler(Context c) {
         this.context = c;
-        products = ((ManageProducts_Application)context.getApplicationContext()).getProducts();
+        products = new ArrayList<Product>(((ManageProducts_Application)context.getApplicationContext()).getProducts(0));
     }
 
     @Override
@@ -59,5 +61,12 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
             txvStock = (TextView)itemView.findViewById(R.id.txvProductStock);
             txvPrice = (TextView)itemView.findViewById(R.id.txvProductPrice);
         }
+    }
+
+    public void getAllProducts(int option){
+        products.clear();
+        products.addAll(((ManageProducts_Application)context.getApplicationContext()).getProducts(option));
+        // The view gets notified. Viewable-viewer pattern
+        notifyDataSetChanged();
     }
 }

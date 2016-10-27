@@ -155,12 +155,12 @@
             android:id="@+id/edtPrice" />
     </LinearLayout>
 
-    <Button
-        android:text="@string/btnAddMed"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnAddMed"
-        android:layout_below="@id/lyPrice"
-        android:layout_centerHorizontal="true"/>
+        android:layout_below="@id/lyPrice">
+        <include layout="@layout/btnadd"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>
