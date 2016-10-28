@@ -66,9 +66,10 @@ public class AddProduct_Activity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1)
+        if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
 
             }
+        }
     }
 }

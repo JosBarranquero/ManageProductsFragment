@@ -1,14 +1,17 @@
 package com.barranquero.manageproductsrecycler;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.interfaces.ILoginMvp;
 import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
@@ -25,6 +28,7 @@ public class Login_Activity extends AppCompatActivity implements ILoginMvp.View 
     private EditText mEdtPassword;
     private EditText mEdtUser;
     private Button mBtnLogin;
+    private TextView mTxvForgot;
     private TextInputLayout mTilUser;
     private TextInputLayout mTilPassword;
     private final String TAG = "Login_Activity";
@@ -58,6 +62,11 @@ public class Login_Activity extends AppCompatActivity implements ILoginMvp.View 
         });
 
         mEdtPassword = (EditText)findViewById(R.id.edtPassword);
+
+        mTxvForgot = (TextView)findViewById(R.id.txvForgot);
+        mTxvForgot.setMovementMethod(LinkMovementMethod.getInstance());
+        Typeface font = Typeface.createFromAsset(getAssets(), "dattermatter.ttf");
+        mTxvForgot.setTypeface(font);
 
         mBtnLogin = (Button)findViewById(R.id.btnLogin);
         mBtnLogin.setOnClickListener(new android.view.View.OnClickListener(){

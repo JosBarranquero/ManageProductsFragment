@@ -34,7 +34,7 @@ public class ManageProducts_Application extends Application {
         products.add(p);
     }
 
-    public List<Product> getProducts(int option) {
+    public List<Product> getProducts(int option, boolean ASC) {
         // Collections.sort(products, Product.PRICE_COMPARATOR);
         switch (option) {
             case 0:
@@ -50,7 +50,10 @@ public class ManageProducts_Application extends Application {
                 break;
             case 3:
                 // Alphabetically sorted list
-                Collections.sort(products);
+                if (ASC)
+                    Collections.sort(products);
+                else
+                    Collections.sort(products, Collections.reverseOrder());
                 break;
         }
         return this.products;

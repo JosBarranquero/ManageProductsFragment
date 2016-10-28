@@ -76,4 +76,11 @@
         android:layout_below="@id/cbxRemember"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txvForgot"
+        android:id="@+id/txvForgot"
+        android:layout_below="@id/btnLogin"/>
+
 </RelativeLayout>

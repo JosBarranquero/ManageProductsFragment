@@ -24,6 +24,7 @@ public class Product_Activity extends AppCompatActivity{
     private RecyclerView mRcvProduct;
     private static final int ADD_PRODUCT = 0;
     private static final int EDIT_PRODUCT = 1;
+    private boolean ASC = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,11 @@ public class Product_Activity extends AppCompatActivity{
             case R.id.action_add_product:
                 Intent intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
+                mRcvProduct.setAdapter(mAdapter);
                 break;
             case R.id.action_sort_alphabetically:
-                mAdapter.getAllProducts(3);
+                mAdapter.getAllProducts(3, ASC);
+                ASC = !ASC;
                 break;
             case R.id.action_settings_general:
                 break;
