@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class Login_Activity extends AppCompatActivity implements ILoginMvp.View 
     private EditText mEdtUser;
     private Button mBtnLogin;
     private TextView mTxvForgot;
+    private TextView mTxvSignUp;
     private TextInputLayout mTilUser;
     private TextInputLayout mTilPassword;
     private final String TAG = "Login_Activity";
@@ -67,6 +69,15 @@ public class Login_Activity extends AppCompatActivity implements ILoginMvp.View 
         mTxvForgot.setMovementMethod(LinkMovementMethod.getInstance());
         Typeface font = Typeface.createFromAsset(getAssets(), "dattermatter.ttf");
         mTxvForgot.setTypeface(font);
+
+        mTxvSignUp = (TextView)findViewById(R.id.txvSign);
+        mTxvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login_Activity.this, Sign_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         mBtnLogin = (Button)findViewById(R.id.btnLogin);
         mBtnLogin.setOnClickListener(new android.view.View.OnClickListener(){

@@ -7,6 +7,7 @@
     <string name="messageUser">Enter your user name</string>
     <string name="btnLogin" translatable="false">Login</string>
     <string name="txvForgot">Forgot your password?</string>
+    <string name="txvSign">Sign up</string>
 
     <string name="acSearchProduct">Search product</string>
     <string name="btnSelectImg">Select image</string>
@@ -20,4 +21,11 @@
     <string name="action_sort_alphabetically">Sort alphabetically</string>
     <string name="action_settings_account">Account settings</string>
     <string name="action_settings_general">General settings</string>
+
+    <string name="rbCompany">Company</string>
+    <string name="rbClient">Client</string>
+    <string name="edtCompany">Company name</string>
+
+    <string name="cbxNews">I want to receive news</string>
+    <string name="cbxTerms">I have read the terms and conditions and I accept them</string>
 </resources>

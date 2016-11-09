@@ -55,19 +55,24 @@ public class Product_Activity extends AppCompatActivity{
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.action_add_product:
-                Intent intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
+                intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
-                mRcvProduct.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
                 break;
             case R.id.action_sort_alphabetically:
                 mAdapter.getAllProducts(3, ASC);
                 ASC = !ASC;
                 break;
             case R.id.action_settings_general:
+                intent = new Intent(Product_Activity.this, GeneralSettingsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.action_settings_account:
+                intent = new Intent(Product_Activity.this, AccountSettingsActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

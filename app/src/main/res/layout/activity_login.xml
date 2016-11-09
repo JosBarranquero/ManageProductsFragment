@@ -83,4 +83,12 @@
         android:id="@+id/txvForgot"
         android:layout_below="@id/btnLogin"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txvSign"
+        android:id="@+id/txvSign"
+        android:layout_below="@id/btnLogin"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
