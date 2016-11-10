@@ -20,7 +20,7 @@
         <activity android:name=".AddProduct_Activity"/>
         <activity android:name=".GeneralSettingsActivity"/>
         <activity android:name=".AccountSettingsActivity"/>
-        <activity android:name=".Sign_Activity"/>
+        <activity android:name=".Sign_Activity" android:parentActivityName=".Login_Activity"/>
     </application>
 
 </manifest>

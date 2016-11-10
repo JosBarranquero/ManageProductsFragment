@@ -1,9 +1,12 @@
 package com.barranquero.manageproductsrecycler;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.CharacterPickerDialog;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,15 +57,15 @@ public class Sign_Activity extends AppCompatActivity{
         spinnerLister = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (view.getId()) {
+                // No puede ser el view.getId()
+                switch (parent.getId()) {
                     case R.id.spCounty:
-                        //TypedArray
+                        loadSpinnerCity(position);
                         break;
                     case R.id.spCity:
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -72,7 +75,22 @@ public class Sign_Activity extends AppCompatActivity{
         //Initialise the County Spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.provincias, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCounty.setOnItemSelectedListener(spinnerLister);
         spCounty.setAdapter(adapter);
+    }
+
+    private void loadSpinnerCity(int position) {
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.array_provincia_a_localidades);
+        CharSequence[] city = typedArray.getTextArray(position);
+        typedArray.recycle();
+
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Sign_Activity.this, android.R.layout.simple_spinner_item, city);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCity.setAdapter(adapter);
+    }
+
+    private boolean validate(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     public void signUp(View view) {

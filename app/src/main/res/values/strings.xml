@@ -2,6 +2,7 @@
     <string name="app_name">ManageProducts</string>
     <string name="txvUser">User</string>
     <string name="txvPassword">Password</string>
+    <string name="txvEmail">email</string>
     <string name="cbxRemember">Remember me</string>
     <string name="messagePassword">Enter your password</string>
     <string name="messageUser">Enter your user name</string>

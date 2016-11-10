@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edtEmail"
             android:inputType="textEmailAddress"
-            android:hint="@string/txvPassword"/>
+            android:hint="@string/txvEmail"/>
     </android.support.design.widget.TextInputLayout>
 
     <Spinner
