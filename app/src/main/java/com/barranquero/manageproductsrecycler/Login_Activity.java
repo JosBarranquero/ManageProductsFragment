@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.barranquero.manageproductsrecycler.interfaces.ILoginMvp;
+import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
 
 /**
@@ -23,9 +23,9 @@ import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Login_Activity extends AppCompatActivity implements ILoginMvp.View {
+public class Login_Activity extends AppCompatActivity implements IValidateAccount.View {
 
-    private ILoginMvp.Presenter mLoginMvp;
+    private IValidateAccount.Presenter mLoginMvp;
     private EditText mEdtPassword;
     private EditText mEdtUser;
     private Button mBtnLogin;
@@ -85,18 +85,13 @@ public class Login_Activity extends AppCompatActivity implements ILoginMvp.View 
             public void onClick(android.view.View view) {
                 String user = mEdtUser.getText().toString();
                 String password = mEdtPassword.getText().toString();
-                mLoginMvp.validateCredentials(user, password);
+                mLoginMvp.validateCredentialsLogin(user, password);
             }
         });
 
         mTilPassword = (TextInputLayout)findViewById(R.id.tilPassword);
         mTilUser = (TextInputLayout)findViewById(R.id.tilUser);
 
-    }
-
-    public void launchActivity(){
-        Intent intent = new Intent(Login_Activity.this, Product_Activity.class);
-        startActivity(intent);
     }
 
     /**

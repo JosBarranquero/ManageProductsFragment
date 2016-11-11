@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * Class to sign up a user
@@ -33,6 +34,17 @@ public class Sign_Activity extends AppCompatActivity{
         spCounty = (Spinner)findViewById(R.id.spCounty);
 
         rdgUserType = (RadioGroup)findViewById(R.id.rdgUserType);
+
+        initUserType();
+
+
+
+        tilCompanyName = (TextInputLayout)findViewById(R.id.tilCompany);
+
+        loadSpinnerCounty();
+    }
+
+    private void initUserType() {
         rdgUserType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -46,10 +58,6 @@ public class Sign_Activity extends AppCompatActivity{
                 }
             }
         });
-
-        tilCompanyName = (TextInputLayout)findViewById(R.id.tilCompany);
-
-        loadSpinnerCounty();
     }
 
     private void loadSpinnerCounty() {
@@ -63,6 +71,7 @@ public class Sign_Activity extends AppCompatActivity{
                         loadSpinnerCity(position);
                         break;
                     case R.id.spCity:
+                        showCitySelected();
                         break;
                 }
             }
@@ -89,12 +98,9 @@ public class Sign_Activity extends AppCompatActivity{
         spCity.setAdapter(adapter);
     }
 
-    private boolean validate(String email) {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    public void signUp(View view) {
-
+    private void showCitySelected() {
+        String mensaje = String.format(getString(R.string.message_county_city), spCounty.getSelectedItem().toString(),spCity.getSelectedItem().toString());
+        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -103,5 +109,14 @@ public class Sign_Activity extends AppCompatActivity{
      */
     private void showCompany(boolean show) {
         tilCompanyName.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public void signUp(View view) {
+
+    }
+
+    private boolean validate(String email) {
+
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
