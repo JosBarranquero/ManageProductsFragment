@@ -1,11 +1,12 @@
 package com.barranquero.manageproductsrecycler.interfaces;
 
-import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
-import com.barranquero.manageproductsrecycler.Product_Activity;
-import com.barranquero.manageproductsrecycler.R;
+import static com.barranquero.manageproductsrecycler.model.Error.DATA_EMPTY;
+import static com.barranquero.manageproductsrecycler.model.Error.OK;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_CASE;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_DIGIT;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_LENGTH;
 
 /**
  * Interface with methods to implement by the View and the Presenter
@@ -14,19 +15,11 @@ import com.barranquero.manageproductsrecycler.R;
  */
 public interface IValidateAccount {
     /**
-     * Error codes
-     */
-    int OK = 0;
-    int PASSWORD_DIGIT = 10;
-    int PASSWORD_CASE = 11;
-    int PASSWORD_LENGTH = 12;
-    int DATA_EMPTY = 13;
-
-    /**
      * Inner interface to be implemented by the View
      */
     interface View {
         void setMessageError(String error, int idView);
+        void startActivity();
     }
 
     /**
@@ -60,5 +53,7 @@ public interface IValidateAccount {
             }
             return result;
         }
+
+        void validateCredentialsLogin(String user, String password);
     }
 }

@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import com.barranquero.manageproductsrecycler.Product_Activity;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
-
+import com.barranquero.manageproductsrecycler.model.Error;
+import com.barranquero.manageproductsrecycler.utils.ErrorMapUtils;
 
 
 /**
@@ -23,31 +24,32 @@ import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 public class Login_Presenter implements IValidateAccount.Presenter {
     private IValidateAccount.View view;
     private int validateUser, validatePassword;
+    private Context context;
 
     public Login_Presenter(IValidateAccount.View view) {
         this.view = view;
+        this.context = (Context)view;
     }
 
     /**
      * Method which checks whether the password the user has entered complies with the rules and saves the username and password
-     *
      * @param user The username entered in the username field
-     *             //@param password The password entered in the password field
+     * @param password The password entered in the password field
      */
     public void validateCredentialsLogin(String user, String password) {
         validateUser = IValidateAccount.Presenter.validateCredentialsUser(user);
         validatePassword = IValidateAccount.Presenter.validateCredentialsPassword(password);
 
-        if ((validateUser == IValidateAccount.OK) && validatePassword == IValidateAccount.OK) {
-            Intent intent = new Intent((Context)view, Product_Activity.class);
-            ((Context)view).startActivity(intent);
+        if (validateUser == Error.OK) {
+            if (validatePassword == Error.OK) {
+                view.startActivity();
+            } else {
+                String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validatePassword));
+                view.setMessageError(nameResource, R.id.tilPassword);
+            }
         } else {
-            switch (validateUser) {
-
-            }
-            switch (validatePassword) {
-                
-            }
+            String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validateUser));
+            view.setMessageError(nameResource, R.id.tilUser);
         }
     }
 }
