@@ -89,7 +89,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
             public void onClick(android.view.View view) {
                 String user = mEdtUser.getText().toString();
                 String password = mEdtPassword.getText().toString();
-                mLoginMvp.validateCredentialsLogin(user, password);
+                mLoginMvp.validateCredentials(user, password);
             }
         });
 

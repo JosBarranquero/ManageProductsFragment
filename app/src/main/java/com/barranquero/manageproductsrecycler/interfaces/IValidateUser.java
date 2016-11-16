@@ -9,9 +9,7 @@ import static com.barranquero.manageproductsrecycler.model.Error.OK;
  * Created by usuario on 11/11/16.
  */
 public interface IValidateUser extends IValidateAccount {
-
-
-    interface Presenter {
+    interface PresenterUser {
         static int validateCredentialsEmail(String email) {
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
                 return EMAIL_INVALID;

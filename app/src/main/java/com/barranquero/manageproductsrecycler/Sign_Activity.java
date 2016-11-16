@@ -3,32 +3,40 @@ package com.barranquero.manageproductsrecycler;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.CharacterPickerDialog;
 import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.barranquero.manageproductsrecycler.interfaces.IValidateUser;
+import com.barranquero.manageproductsrecycler.presenter.Signup_Presenter;
+
 /**
  * Class to sign up a user
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Sign_Activity extends AppCompatActivity{
+public class Sign_Activity extends AppCompatActivity implements IValidateUser.View {
     private Spinner spCounty, spCity;
     private RadioGroup rdgUserType;
     private TextInputLayout tilCompanyName;
     private AdapterView.OnItemSelectedListener spinnerLister;
+    private Signup_Presenter presenter;
+    private ViewGroup layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
+        layout = (ViewGroup)findViewById(R.id.activity_sign;
 
         spCity = (Spinner)findViewById(R.id.spCity);
         spCounty = (Spinner)findViewById(R.id.spCounty);
@@ -112,11 +120,36 @@ public class Sign_Activity extends AppCompatActivity{
     }
 
     public void signUp(View view) {
-
+        //Recoger los datos de la vista y llama al método del presentador
+        User user = new User();
+        presenter.validateCredentials(user);
     }
 
     private boolean validate(String email) {
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    @Override
+    public void setMessageError(String error, int idView) {
+        String error = getResources().getString(getResources().getIdentifier(nameResource, "string", getPackageName()));
+        switch (idView) {
+            case R.id.tilPassword:
+                //mTilPassword.setError(error);
+                Snackbar.make(layout, error, Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.tilUser:
+                //mTilUser.setError(error);
+                Snackbar.make(layout, error, Snackbar.LENGTH_SHORT).show();
+                break;
+            case R.id.tilEmail:
+                Snackbar.make(layout, error, Snackbar.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void startActivity() {
+
     }
 }

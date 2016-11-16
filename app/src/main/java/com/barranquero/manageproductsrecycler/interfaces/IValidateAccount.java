@@ -54,6 +54,6 @@ public interface IValidateAccount {
             return result;
         }
 
-        void validateCredentialsLogin(String user, String password);
+        boolean validateCredentials(String user, String password);
     }
 }

@@ -2,10 +2,7 @@ package com.barranquero.manageproductsrecycler.presenter;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
 
-import com.barranquero.manageproductsrecycler.Product_Activity;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 import com.barranquero.manageproductsrecycler.model.Error;
@@ -36,7 +33,7 @@ public class Login_Presenter implements IValidateAccount.Presenter {
      * @param user The username entered in the username field
      * @param password The password entered in the password field
      */
-    public void validateCredentialsLogin(String user, String password) {
+    public boolean validateCredentials(String user, String password) {
         validateUser = IValidateAccount.Presenter.validateCredentialsUser(user);
         validatePassword = IValidateAccount.Presenter.validateCredentialsPassword(password);
 
@@ -51,5 +48,6 @@ public class Login_Presenter implements IValidateAccount.Presenter {
             String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validateUser));
             view.setMessageError(nameResource, R.id.tilUser);
         }
+        return true;
     }
 }
