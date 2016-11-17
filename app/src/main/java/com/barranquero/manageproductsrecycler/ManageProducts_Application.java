@@ -42,11 +42,11 @@ public class ManageProducts_Application extends Application {
                 break;
             case 1:
                 // Sorted by price list
-                Collections.sort(products, (p1, p2) -> Double.compare(p1.getmPrice(), p2.getmPrice()));
+                //Collections.sort(products, (p1, p2) -> Double.compare(p1.getmPrice(), p2.getmPrice()));
                 break;
             case 2:
                 // Sorted by stock list
-                Collections.sort(products, (p1, p2) -> p1.getmStock() - p2.getmStock());
+                //Collections.sort(products, (p1, p2) -> p1.getmStock() - p2.getmStock());
                 break;
             case 3:
                 // Alphabetically sorted list

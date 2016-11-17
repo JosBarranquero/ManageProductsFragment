@@ -27,7 +27,7 @@ import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
  */
 public class Login_Activity extends AppCompatActivity implements IValidateAccount.View {
 
-    private IValidateAccount.Presenter mLoginMvp;
+    private Login_Presenter mLoginMvp;
     private EditText mEdtPassword;
     private EditText mEdtUser;
     private Button mBtnLogin;

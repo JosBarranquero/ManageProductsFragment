@@ -10,11 +10,12 @@ import static com.barranquero.manageproductsrecycler.model.Error.OK;
  */
 public interface IValidateUser extends IValidateAccount {
     interface PresenterUser {
-        static int validateCredentialsEmail(String email) {
+        int validateCredentialsEmail(String email);
+        /*static int validateCredentialsEmail(String email) {
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
                 return EMAIL_INVALID;
             else
                 return OK;
-        }
+        }*/
     }
 }

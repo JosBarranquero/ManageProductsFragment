@@ -2,11 +2,18 @@ package com.barranquero.manageproductsrecycler.presenter;
 
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 import com.barranquero.manageproductsrecycler.model.Error;
 import com.barranquero.manageproductsrecycler.utils.ErrorMapUtils;
+
+import static com.barranquero.manageproductsrecycler.model.Error.DATA_EMPTY;
+import static com.barranquero.manageproductsrecycler.model.Error.OK;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_CASE;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_DIGIT;
+import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_LENGTH;
 
 
 /**
@@ -33,12 +40,12 @@ public class Login_Presenter implements IValidateAccount.Presenter {
      * @param user The username entered in the username field
      * @param password The password entered in the password field
      */
-    public boolean validateCredentials(String user, String password) {
-        validateUser = IValidateAccount.Presenter.validateCredentialsUser(user);
-        validatePassword = IValidateAccount.Presenter.validateCredentialsPassword(password);
+    public void validateCredentials(String user, String password) {
+        validateUser = validateCredentialsUser(user);
+        validatePassword = validateCredentialsPassword(password);
 
-        if (validateUser == Error.OK) {
-            if (validatePassword == Error.OK) {
+        if (validateUser == OK) {
+            if (validatePassword == OK) {
                 view.startActivity();
             } else {
                 String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validatePassword));
@@ -48,6 +55,32 @@ public class Login_Presenter implements IValidateAccount.Presenter {
             String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validateUser));
             view.setMessageError(nameResource, R.id.tilUser);
         }
-        return true;
+    }
+
+    @Override
+    public int validateCredentialsUser(String user) {
+        if (TextUtils.isEmpty(user)) {
+            return DATA_EMPTY;
+        }
+        return OK;
+    }
+
+    @Override
+    public int validateCredentialsPassword(String password) {
+        int result = OK;
+        if (TextUtils.isEmpty(password)) {
+            result = DATA_EMPTY;
+        } else {
+            if (!(password.matches("(.*)\\d(.*)"))) {
+                result = PASSWORD_DIGIT;
+            }
+            if (!(password.matches("(.*)\\p{Lower}(.*)") && password.matches("(.*)\\p{Upper}(.*)"))) {
+                result = PASSWORD_CASE;
+            }
+            if (password.length() < 8) {
+                result = PASSWORD_LENGTH;
+            }
+        }
+        return result;
     }
 }

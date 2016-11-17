@@ -1,5 +1,7 @@
 package com.barranquero.manageproductsrecycler;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,13 +33,20 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
     private TextInputLayout tilCompanyName;
     private AdapterView.OnItemSelectedListener spinnerLister;
     private Signup_Presenter presenter;
+    private EditText edtUser, edtPassword, edtEmail;
     private ViewGroup layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
-        layout = (ViewGroup)findViewById(R.id.activity_sign;
+        layout = (ViewGroup)findViewById(R.id.activity_sign);
+
+        presenter = new Signup_Presenter(this);
+
+        edtUser = (EditText)findViewById(R.id.edtUsername);
+        edtPassword = (EditText)findViewById(R.id.edtNewPassword);
+        edtEmail = (EditText)findViewById(R.id.edtEmail);
 
         spCity = (Spinner)findViewById(R.id.spCity);
         spCounty = (Spinner)findViewById(R.id.spCounty);
@@ -52,6 +62,11 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         loadSpinnerCounty();
     }
 
+    /**
+     * Method which checks which RadioButton is check to set client type (client-company)
+     * @author José Antonio Barranquero Fernández
+     * @version 1.0
+     */
     private void initUserType() {
         rdgUserType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -68,8 +83,10 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         });
     }
 
+    /**
+     * Method which loads Counties (provincias) into a Spinner
+     */
     private void loadSpinnerCounty() {
-
         spinnerLister = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,6 +113,10 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         spCounty.setAdapter(adapter);
     }
 
+    /**
+     * Method which loads the cities of the selected county
+     * @param position The county position in the array
+     */
     private void loadSpinnerCity(int position) {
         TypedArray typedArray = getResources().obtainTypedArray(R.array.array_provincia_a_localidades);
         CharSequence[] city = typedArray.getTextArray(position);
@@ -106,6 +127,9 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         spCity.setAdapter(adapter);
     }
 
+    /**
+     * Method which shows which county and city has been selected in a Toast
+     */
     private void showCitySelected() {
         String mensaje = String.format(getString(R.string.message_county_city), spCounty.getSelectedItem().toString(),spCity.getSelectedItem().toString());
         Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
@@ -121,8 +145,7 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
 
     public void signUp(View view) {
         //Recoger los datos de la vista y llama al método del presentador
-        User user = new User();
-        presenter.validateCredentials(user);
+        presenter.validateCredentials(edtUser.getText().toString(), edtPassword.getText().toString(), edtEmail.getText().toString());
     }
 
     private boolean validate(String email) {
@@ -130,8 +153,13 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    /**
+     * Method which shows the error in a personalised message using a {@link Snackbar}
+     * @param nameResource Error String name to be shown, using {@link Resources#getIdentifier(String, String, String)} to obtain the id from R class
+     * @param idView
+     */
     @Override
-    public void setMessageError(String error, int idView) {
+    public void setMessageError(String nameResource, int idView) {
         String error = getResources().getString(getResources().getIdentifier(nameResource, "string", getPackageName()));
         switch (idView) {
             case R.id.tilPassword:
@@ -150,6 +178,8 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
 
     @Override
     public void startActivity() {
-
+        Intent intent = new Intent(Sign_Activity.this, Product_Activity.class);
+        startActivity(intent);
+        finish();
     }
 }

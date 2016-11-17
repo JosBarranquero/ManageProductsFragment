@@ -26,10 +26,10 @@ public interface IValidateAccount {
      * Inner interface to be implemented by the Presenter
      */
     interface Presenter {
-        //boolean validateCredentialsUser(String user);
-        //boolean validateCredentialsPassword(String password);
+        int validateCredentialsUser(String user);
+        int validateCredentialsPassword(String password);
 
-        static int validateCredentialsUser(String user) {
+        /*static int validateCredentialsUser(String user) {
             if (TextUtils.isEmpty(user)) {
                 return DATA_EMPTY;
             }
@@ -52,8 +52,8 @@ public interface IValidateAccount {
                 }
             }
             return result;
-        }
+        }*/
 
-        boolean validateCredentials(String user, String password);
+        //boolean validateCredentials(String user, String password);
     }
 }
