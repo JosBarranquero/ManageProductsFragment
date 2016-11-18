@@ -34,28 +34,8 @@ public class ManageProducts_Application extends Application {
         products.add(p);
     }
 
-    public List<Product> getProducts(int option, boolean ASC) {
-        // Collections.sort(products, Product.PRICE_COMPARATOR);
-        switch (option) {
-            case 0:
-                // Unsorted list
-                break;
-            case 1:
-                // Sorted by price list
-                //Collections.sort(products, (p1, p2) -> Double.compare(p1.getmPrice(), p2.getmPrice()));
-                break;
-            case 2:
-                // Sorted by stock list
-                //Collections.sort(products, (p1, p2) -> p1.getmStock() - p2.getmStock());
-                break;
-            case 3:
-                // Alphabetically sorted list
-                if (ASC)
-                    Collections.sort(products);
-                else
-                    Collections.sort(products, Collections.reverseOrder());
-                break;
-        }
+
+    public List<Product> getProducts() {
         return this.products;
     }
 

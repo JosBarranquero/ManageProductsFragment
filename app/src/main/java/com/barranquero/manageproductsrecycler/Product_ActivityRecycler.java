@@ -7,14 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapterRecycler;
-import com.barranquero.manageproductsrecycler.interfaces.IProduct;
-import com.barranquero.manageproductsrecycler.model.Product;
 
 
 /**
@@ -22,32 +16,22 @@ import com.barranquero.manageproductsrecycler.model.Product;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Product_Activity extends AppCompatActivity implements IProduct {
-    private ProductAdapter mAdapter;
-    private ListView mListProduct;
+public class Product_ActivityRecycler extends AppCompatActivity{
+    private ProductAdapterRecycler mAdapter;
+    private RecyclerView mRcvProduct;
     private static final int ADD_PRODUCT = 0;
     private static final int EDIT_PRODUCT = 1;
-
+    private boolean ASC = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+        setContentView(R.layout.activity_product_recycler);
 
-        mListProduct = (ListView)findViewById(R.id.listProduct);
-
-        mAdapter = new ProductAdapter(this);
-        mListProduct.setAdapter(mAdapter);
-        mListProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
-                Intent intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, EDIT_PRODUCT);
-            }
-        });
+        mAdapter = new ProductAdapterRecycler(this);
+        mRcvProduct = (RecyclerView)findViewById(R.id.rcvProduct);
+        mRcvProduct.setLayoutManager(new LinearLayoutManager(this));
+        mRcvProduct.setAdapter(mAdapter);
     }
 
     /**
@@ -71,19 +55,20 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_add_product:
-                intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
+                intent = new Intent(Product_ActivityRecycler.this, AddProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.action_sort_alphabetically:
-                mAdapter.sortAlphabetically();
+                mAdapter.getAllProducts(3, ASC);
+                ASC = !ASC;
                 break;
             case R.id.action_settings_general:
-                intent = new Intent(Product_Activity.this, GeneralSettingsActivity.class);
+                intent = new Intent(Product_ActivityRecycler.this, GeneralSettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_settings_account:
-                intent = new Intent(Product_Activity.this, AccountSettingsActivity.class);
+                intent = new Intent(Product_ActivityRecycler.this, AccountSettingsActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -94,14 +79,12 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_PRODUCT){
             if (resultCode == RESULT_OK) {
-                Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
-                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
+                // Adding the product
 
             }
         } else if (requestCode == EDIT_PRODUCT) {
             if (resultCode == RESULT_OK) {
-                Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
-                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
+                // Editing the product
             }
         }
     }

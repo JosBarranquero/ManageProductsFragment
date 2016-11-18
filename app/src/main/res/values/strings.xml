@@ -19,6 +19,7 @@
     <string name="txvStock">Stock</string>
     <string name="txvPrice">Price</string>
     <string name="btnAddMed">Add</string>
+    <string name="edit_product">Edit</string>
     <string name="action_sort_alphabetically">Sort alphabetically</string>
     <string name="action_settings_account">Account settings</string>
     <string name="action_settings_general">General settings</string>
@@ -31,5 +32,5 @@
     <string name="cbxTerms">I have read the terms and conditions and I accept them</string>
 
     <!-- %1 primer argumento, %2 segundo ; $s string ; $d double... -->
-    <string name="message_county_city">Ha seleccionado %1$s (%2$s)</string>
+    <string name="message_county_city">You have chosen %1$s (%2$s)</string>
 </resources>

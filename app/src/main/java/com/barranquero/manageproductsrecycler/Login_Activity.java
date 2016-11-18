@@ -120,7 +120,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
 
     @Override
     public void startActivity() {
-        Intent intent = new Intent(Login_Activity.this, Product_Activity.class);
+        Intent intent = new Intent(Login_Activity.this, Product_ActivityRecycler.class);
         startActivity(intent);
     }
 

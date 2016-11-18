@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.CharacterPickerDialog;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,7 +177,7 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
 
     @Override
     public void startActivity() {
-        Intent intent = new Intent(Sign_Activity.this, Product_Activity.class);
+        Intent intent = new Intent(Sign_Activity.this, Product_ActivityRecycler.class);
         startActivity(intent);
         finish();
     }

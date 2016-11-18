@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 /**
@@ -22,7 +23,7 @@ public class AddProduct_Activity extends AppCompatActivity {
     private ImageButton mImgMedicine;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
@@ -32,7 +33,6 @@ public class AddProduct_Activity extends AppCompatActivity {
         mEdtDosage = (EditText)findViewById(R.id.edtDosage);
         mEdtStock = (EditText)findViewById(R.id.edtStock);
         mEdtPrice = (EditText)findViewById(R.id.edtPrice);
-
         mImgMedicine = (ImageButton)findViewById(R.id.imgMedicine);
         mImgMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,27 +41,59 @@ public class AddProduct_Activity extends AppCompatActivity {
                 intent.setType("image/*");
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, 1);
-
                 }
             }
         });
 
         mBtnAddMed = (Button)findViewById(R.id.btnAddMed);
-        mBtnAddMed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = mEdtName.getText().toString();
-                String description = mEdtDesc.getText().toString();
-                String brand = mEdtBrand.getText().toString();
-                String dosage = mEdtDosage.getText().toString();
-                double price = Double.parseDouble(mEdtPrice.getText().toString());
-                int stock = Integer.parseInt(mEdtStock.getText().toString());
-                int image = mImgMedicine.getId();
 
-                Product product = new Product(name, description, brand, dosage, price, stock, image);
-                ((ManageProducts_Application)getApplicationContext()).addProduct(product);
-            }
-        });
+        Product product = (Product)getIntent().getExtras().getSerializable(Product.PRODUCT_KEY);
+
+        if (product != null) {
+            mEdtName.setText(product.getmName());
+            mEdtDesc.setText(product.getmDescription());
+            mEdtBrand.setText(product.getmBrand());
+            mEdtDosage.setText(product.getmDosage());
+            mEdtStock.setText(product.getFormattedStock());
+            mEdtPrice.setText(product.getFormattedPrice());
+            mImgMedicine.setImageResource(product.getmImage());
+
+            mBtnAddMed.setText(getResources().getString(R.string.edit_product));
+
+            mBtnAddMed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    editProduct();
+                }
+            });
+        }
+
+
+        else {
+            mBtnAddMed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    saveProduct();
+                }
+            });
+        }
+    }
+
+    private void saveProduct() {
+        String name = mEdtName.getText().toString();
+        String description = mEdtDesc.getText().toString();
+        String brand = mEdtBrand.getText().toString();
+        String dosage = mEdtDosage.getText().toString();
+        double price = Double.parseDouble(mEdtPrice.getText().toString());
+        int stock = Integer.parseInt(mEdtStock.getText().toString());
+        int image = mImgMedicine.getId();
+
+        Product product = new Product(name, description, brand, dosage, price, stock, image);
+        new ProductAdapter(this).addProduct(product);
+    }
+
+    private void editProduct() {
+
     }
 
     @Override

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/activity_sign">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/activity_sign">
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -72,11 +75,25 @@
             android:checked="true" />
     </RadioGroup>
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbxNews"
+        android:text="@string/cbxNews"
+        android:layout_below="@id/rdgUserType"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cbxTerms"
+        android:text="@string/cbxTerms"
+        android:layout_below="@id/cbxNews"/>
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tilCompany"
-        android:layout_below="@id/rdgUserType"
+        android:layout_below="@id/cbxTerms"
         android:visibility="gone">
         <EditText
             android:layout_width="match_parent"
@@ -86,26 +103,14 @@
             />
     </android.support.design.widget.TextInputLayout>
 
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cbxNews"
-        android:text="@string/cbxNews"
-        android:layout_below="@id/tilCompany"/>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cbxTerms"
-        android:text="@string/cbxTerms"
-        android:layout_below="@id/cbxNews"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/txvSign"
         android:id="@+id/btnSign"
-        android:layout_below="@id/cbxTerms"
+        android:layout_below="@id/tilCompany"
         android:onClick="signUp"/>
+
+
 </RelativeLayout>

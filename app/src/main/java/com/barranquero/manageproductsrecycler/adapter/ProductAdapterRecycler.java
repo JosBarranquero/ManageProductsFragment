@@ -25,7 +25,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public ProductAdapterRecycler(Context c) {
         this.context = c;
-        products = new ArrayList<Product>(((ManageProducts_Application)context.getApplicationContext()).getProducts(0, true));
+        products = new ArrayList<Product>(((ManageProducts_Application)context.getApplicationContext()).getProducts());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public void getAllProducts(int option, boolean ASC){
         products.clear();
-        products.addAll(((ManageProducts_Application)context.getApplicationContext()).getProducts(option, ASC));
+        products.addAll(((ManageProducts_Application)context.getApplicationContext()).getProducts());
         // The view gets notified. Viewable-viewer pattern
         notifyDataSetChanged();
     }
