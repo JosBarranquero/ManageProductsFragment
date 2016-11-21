@@ -54,11 +54,11 @@ public class Product_ActivityRecycler extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()){
-            case R.id.action_add_product:
+            /*case R.id.action_add_product:
                 intent = new Intent(Product_ActivityRecycler.this, ManageProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
-                break;
+                break;*/
             case R.id.action_sort_alphabetically:
                 mAdapter.getAllProducts(3, ASC);
                 ASC = !ASC;

@@ -2,6 +2,7 @@ package com.barranquero.manageproductsrecycler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.barranquero.manageproductsrecycler.model.Product;
 public class Product_Activity extends AppCompatActivity implements IProduct {
     private ProductAdapter mAdapter;
     private ListView mListProduct;
+    private FloatingActionButton mFabAdd;
     private static final int ADD_PRODUCT = 0;
     private static final int EDIT_PRODUCT = 1;
 
@@ -43,6 +45,16 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
                 Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, EDIT_PRODUCT);
+            }
+        });
+
+        mFabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
+        mFabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
+                startActivityForResult(intent, ADD_PRODUCT);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -67,11 +79,11 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()){
-            case R.id.action_add_product:
+            /*case R.id.action_add_product:
                 intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
-                break;
+                break;*/
             case R.id.action_sort_alphabetically:
                 mAdapter.sortAlphabetically();
                 break;
