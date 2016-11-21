@@ -73,6 +73,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         add(product);
     }
 
+    public void addProduct(Product product, Product old) {
+        remove(old);
+        add(product);
+    }
+
     class ProductHolder {
         ImageView imgProduct;
         TextView txvProductName, txvProductPrice, txvProductStock;

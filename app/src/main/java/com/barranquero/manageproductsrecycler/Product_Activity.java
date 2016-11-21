@@ -3,8 +3,6 @@ package com.barranquero.manageproductsrecycler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
-import com.barranquero.manageproductsrecycler.adapter.ProductAdapterRecycler;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -43,7 +40,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
-                Intent intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
+                Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, EDIT_PRODUCT);
             }
@@ -71,7 +68,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_add_product:
-                intent = new Intent(Product_Activity.this, AddProduct_Activity.class);
+                intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
                 break;
@@ -96,12 +93,12 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
             if (resultCode == RESULT_OK) {
                 Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
                 ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
-
             }
         } else if (requestCode == EDIT_PRODUCT) {
             if (resultCode == RESULT_OK) {
                 Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
-                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
+                Product old = (Product)data.getExtras().getSerializable(OLD_KEY);
+                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product, old);
             }
         }
     }

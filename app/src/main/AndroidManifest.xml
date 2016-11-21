@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddProduct_Activity" android:windowSoftInputMode="adjustPan" android:parentActivityName=".Product_Activity"/>
+        <activity android:name=".ManageProduct_Activity" android:windowSoftInputMode="adjustPan" android:parentActivityName=".Product_Activity"/>
         <activity android:name=".GeneralSettingsActivity"/>
         <activity android:name=".AccountSettingsActivity"/>
         <activity android:name=".Sign_Activity" android:parentActivityName=".Login_Activity" android:windowSoftInputMode="adjustPan"/>

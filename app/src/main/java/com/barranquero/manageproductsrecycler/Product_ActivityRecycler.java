@@ -55,7 +55,7 @@ public class Product_ActivityRecycler extends AppCompatActivity{
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_add_product:
-                intent = new Intent(Product_ActivityRecycler.this, AddProduct_Activity.class);
+                intent = new Intent(Product_ActivityRecycler.this, ManageProduct_Activity.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
                 break;

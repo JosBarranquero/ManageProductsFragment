@@ -6,4 +6,5 @@ package com.barranquero.manageproductsrecycler.interfaces;
 
 public interface IProduct {
     public final static String PRODUCT_KEY = "product";
+    String OLD_KEY = "oldproduct";
 }
