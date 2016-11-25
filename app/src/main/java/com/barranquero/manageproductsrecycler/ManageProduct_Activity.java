@@ -56,7 +56,7 @@ public class ManageProduct_Activity extends AppCompatActivity {
         Product product;
 
         if (getIntent().getExtras() != null) {
-            product = (Product) getIntent().getExtras().getSerializable(Product.PRODUCT_KEY);
+            product = getIntent().getExtras().getParcelable(Product.PRODUCT_KEY);
             mEdtName.setText(product.getmName());
             mEdtDesc.setText(product.getmDescription());
             mEdtBrand.setText(product.getmBrand());
@@ -113,7 +113,7 @@ public class ManageProduct_Activity extends AppCompatActivity {
 
         Intent intent = new Intent();
         intent.putExtra(IProduct.PRODUCT_KEY, product);
-        intent.putExtra(IProduct.OLD_KEY, getIntent().getExtras().getSerializable(Product.PRODUCT_KEY));
+        intent.putExtra(IProduct.OLD_KEY, getIntent().getExtras().getParcelable(Product.PRODUCT_KEY));
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

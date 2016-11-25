@@ -45,7 +45,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
+                bundle.putParcelable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
                 Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, EDIT_PRODUCT);
@@ -79,10 +79,10 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.action_delete_product:
-                
+            /*case R.id.action_delete_product:
+
                 return true;
-                break;
+                break;*/
             default:
                 return super.onContextItemSelected(item);
         }
@@ -133,13 +133,16 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_PRODUCT){
             if (resultCode == RESULT_OK) {
-                Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
+                //Product product = (Product)data.getExtras().getParcelable(PRODUCT_KEY);
+                Product product = (Product)data.getParcelableExtra(PRODUCT_KEY);
                 ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
             }
         } else if (requestCode == EDIT_PRODUCT) {
             if (resultCode == RESULT_OK) {
-                Product product = (Product)data.getExtras().getSerializable(PRODUCT_KEY);
-                Product old = (Product)data.getExtras().getSerializable(OLD_KEY);
+                //Product product = (Product)data.getExtras().getParcelable(PRODUCT_KEY);
+                //Product old = (Product)data.getExtras().getParcelable(OLD_KEY);
+                Product product = (Product)data.getParcelableExtra(PRODUCT_KEY);
+                Product old = (Product)data.getParcelableExtra(PRODUCT_KEY);
                 ((ProductAdapter)mListProduct.getAdapter()).addProduct(product, old);
             }
         }

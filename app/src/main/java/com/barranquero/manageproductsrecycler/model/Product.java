@@ -1,5 +1,8 @@
 package com.barranquero.manageproductsrecycler.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 
@@ -12,7 +15,7 @@ import java.util.Locale;
  * Model class
  * If we want to order by different fields, we don't use the Comparable interface, we need to create Comparator fields
  */
-public class Product implements Comparable<Product>, Serializable, IProduct {
+public class Product implements Comparable<Product>, Parcelable, IProduct {
     private int mId;
     private String mName;
     private String mDescription;
@@ -42,6 +45,18 @@ public class Product implements Comparable<Product>, Serializable, IProduct {
         }
     };
 
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
     public Product(String mName, String mDescription, String mBrand, String mDosage, double mPrice, int mStock, int mImage) {
         this.mName = mName;
         this.mDescription = mDescription;
@@ -50,6 +65,34 @@ public class Product implements Comparable<Product>, Serializable, IProduct {
         this.mPrice = mPrice;
         this.mStock = mStock;
         this.mImage = mImage;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeString(mDescription);
+        parcel.writeString(mBrand);
+        parcel.writeString(mDosage);
+        parcel.writeDouble(mPrice);
+        parcel.writeInt(mStock);
+        parcel.writeInt(mImage);
+    }
+
+    protected Product(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mDescription = in.readString();
+        mBrand = in.readString();
+        mDosage = in.readString();
+        mPrice = in.readDouble();
+        mStock = in.readInt();
+        mImage = in.readInt();
     }
 
     public int getmId() {
