@@ -1,13 +1,17 @@
 package com.barranquero.manageproductsrecycler;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -21,18 +25,44 @@ import com.barranquero.manageproductsrecycler.model.Product;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Product_Activity extends AppCompatActivity implements IProduct {
+public class ListProductFragment extends Fragment implements IProduct {
+    private static final int ADD_PRODUCT = 0;
+    private static final int EDIT_PRODUCT = 1;
     private ProductAdapter mAdapter;
     private ListView mListProduct;
     private FloatingActionButton mFabAdd;
-    private static final int ADD_PRODUCT = 0;
-    private static final int EDIT_PRODUCT = 1;
+    private ListProductListener mCallback;
 
+    public interface ListProductListener {
+        void showManageProduct(Bundle bundle);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (ListProductListener)activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(e.getMessage() + " activity must implement ListProductListener interface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        setContentView(R.layout.fragment_list_product);
 
         mListProduct = (ListView)findViewById(R.id.listProduct);
 
@@ -46,7 +76,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
-                Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
+                Intent intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, EDIT_PRODUCT);
             }
@@ -56,7 +86,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
+                Intent intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
             }
@@ -110,7 +140,7 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
         Intent intent;
         switch (item.getItemId()){
             /*case R.id.action_add_product:
-                intent = new Intent(Product_Activity.this, ManageProduct_Activity.class);
+                intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
                 break;*/
@@ -118,11 +148,11 @@ public class Product_Activity extends AppCompatActivity implements IProduct {
                 mAdapter.sortAlphabetically();
                 break;
             case R.id.action_settings_general:
-                intent = new Intent(Product_Activity.this, GeneralSettingsActivity.class);
+                intent = new Intent(ListProductFragment.this, GeneralSettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_settings_account:
-                intent = new Intent(Product_Activity.this, AccountSettingsActivity.class);
+                intent = new Intent(ListProductFragment.this, AccountSettingsActivity.class);
                 startActivity(intent);
                 break;
         }

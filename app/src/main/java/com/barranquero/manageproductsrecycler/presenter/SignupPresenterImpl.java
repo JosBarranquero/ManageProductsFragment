@@ -1,52 +1,49 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
-
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Patterns;
 
 import com.barranquero.manageproductsrecycler.R;
-import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
-import com.barranquero.manageproductsrecycler.model.Error;
+import com.barranquero.manageproductsrecycler.interfaces.LoginPresenter;
+import com.barranquero.manageproductsrecycler.interfaces.SignupPresenter;
+import com.barranquero.manageproductsrecycler.preferences.AccountPreferencesImpl;
 import com.barranquero.manageproductsrecycler.utils.ErrorMapUtils;
 
 import static com.barranquero.manageproductsrecycler.model.Error.DATA_EMPTY;
+import static com.barranquero.manageproductsrecycler.model.Error.EMAIL_INVALID;
 import static com.barranquero.manageproductsrecycler.model.Error.OK;
 import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_CASE;
 import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_DIGIT;
 import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_LENGTH;
 
-
 /**
- * Class that controls the view and implements the Login rules
- * - At least one upper case and one lower case character
- * - At least one digit
- * - At least 8 characters long
- *
- * @author José Antonio Barranquero Fernández
- * @version 1.0
+ * Presenter
  */
-public class Login_Presenter implements IValidateAccount.Presenter {
-    private IValidateAccount.View view;
-    private int validateUser, validatePassword;
+public class SignupPresenterImpl implements SignupPresenter.Presenter, SignupPresenter.PresenterUser {
+    private int validateUser, validatePassword, validateEmail;
+    private LoginPresenter.View view;
     private Context context;
 
-    public Login_Presenter(IValidateAccount.View view) {
+    public SignupPresenterImpl(LoginPresenter.View view) {
         this.view = view;
         this.context = (Context)view;
     }
 
-    /**
-     * Method which checks whether the password the user has entered complies with the rules and saves the username and password
-     * @param user The username entered in the username field
-     * @param password The password entered in the password field
-     */
-    public void validateCredentials(String user, String password) {
+    public void validateCredentials(String user, String password, String email) {
         validateUser = validateCredentialsUser(user);
         validatePassword = validateCredentialsPassword(password);
+        validateEmail = validateCredentialsEmail(email);
 
         if (validateUser == OK) {
             if (validatePassword == OK) {
-                view.startActivity();
+                if (validateEmail == OK) {
+                    savePreferences(user, password, email);
+                    view.startActivity();
+                } else {
+                    String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validateEmail));
+                    view.setMessageError(nameResource, R.id.tilEmail);
+                }
             } else {
                 String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validatePassword));
                 view.setMessageError(nameResource, R.id.tilPassword);
@@ -55,6 +52,21 @@ public class Login_Presenter implements IValidateAccount.Presenter {
             String nameResource = ErrorMapUtils.getErrorMap(context).get(String.valueOf(validateUser));
             view.setMessageError(nameResource, R.id.tilUser);
         }
+    }
+
+    private void savePreferences(String user, String password, String email) {
+        AccountPreferencesImpl accountPreferences = (AccountPreferencesImpl) AccountPreferencesImpl.getInstance(context);
+        accountPreferences.putUser(user);
+        accountPreferences.putPassword(password);
+        accountPreferences.putEmail(email);
+    }
+
+    @Override
+    public int validateCredentialsEmail(String email) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                return EMAIL_INVALID;
+            else
+                return OK;
     }
 
     @Override

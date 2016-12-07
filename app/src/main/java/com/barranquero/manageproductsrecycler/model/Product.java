@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
-import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
 
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Currency;
 import java.util.Locale;

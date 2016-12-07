@@ -1,7 +1,6 @@
 package com.barranquero.manageproductsrecycler.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.barranquero.manageproductsrecycler.ManageProducts_Application;
+import com.barranquero.manageproductsrecycler.ManageProductsApplication;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -25,7 +24,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public ProductAdapterRecycler(Context c) {
         this.context = c;
-        products = new ArrayList<Product>(((ManageProducts_Application)context.getApplicationContext()).getProducts());
+        products = new ArrayList<Product>(((ManageProductsApplication)context.getApplicationContext()).getProducts());
     }
 
     @Override
@@ -65,7 +64,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public void getAllProducts(int option, boolean ASC){
         products.clear();
-        products.addAll(((ManageProducts_Application)context.getApplicationContext()).getProducts());
+        products.addAll(((ManageProductsApplication)context.getApplicationContext()).getProducts());
         // The view gets notified. Viewable-viewer pattern
         notifyDataSetChanged();
     }

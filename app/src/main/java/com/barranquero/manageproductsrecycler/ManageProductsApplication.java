@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ManageProducts_Application extends Application {
+public class ManageProductsApplication extends Application {
     private ArrayList<Product> products = new ArrayList<Product>();
 
     @Override

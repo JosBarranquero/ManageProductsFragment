@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,14 +25,15 @@ import java.util.Locale;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ManageProduct_Activity extends AppCompatActivity {
+public class ManageProductFragment extends Fragment {
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
         mEdtName = (EditText) findViewById(R.id.edtName);

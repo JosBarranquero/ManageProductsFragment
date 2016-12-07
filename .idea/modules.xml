@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ManageProductsRecycler.iml" filepath="$PROJECT_DIR$/ManageProductsRecycler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ManageProductsFragment.iml" filepath="$PROJECT_DIR$/ManageProductsFragment.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

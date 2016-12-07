@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.barranquero.manageproductsrecycler.interfaces.IPreferences;
+import com.barranquero.manageproductsrecycler.interfaces.Preferences;
 
 /**
  *
  */
-public class AccountPreferences implements IPreferences {
-    private static IPreferences accountPreferences;
+public class AccountPreferencesImpl implements Preferences {
+    private static Preferences accountPreferences;
     //public static final String FILE = "com.barranquero.manageproductsrecycler_preferences";
     public static final String USER = "user";
     public static final String PASSWORD = "password";
@@ -18,14 +18,14 @@ public class AccountPreferences implements IPreferences {
 
     private SharedPreferences sharedPreferences;
 
-    private AccountPreferences(Context c) {
+    private AccountPreferencesImpl(Context c) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
     }
 
     //Singleton
-    public static IPreferences getInstance(Context c) {
+    public static Preferences getInstance(Context c) {
         if (accountPreferences == null) {
-            accountPreferences = new AccountPreferences(c);
+            accountPreferences = new AccountPreferencesImpl(c);
         }
         return accountPreferences;
     }

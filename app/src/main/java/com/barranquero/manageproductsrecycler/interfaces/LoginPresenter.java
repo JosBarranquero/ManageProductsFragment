@@ -13,7 +13,7 @@ import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_LENGTH
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public interface IValidateAccount {
+public interface LoginPresenter {
     /**
      * Inner interface to be implemented by the View
      */

@@ -16,7 +16,7 @@ import com.barranquero.manageproductsrecycler.adapter.ProductAdapterRecycler;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Product_ActivityRecycler extends AppCompatActivity{
+public class ProductActivityRecycler extends AppCompatActivity{
     private ProductAdapterRecycler mAdapter;
     private RecyclerView mRcvProduct;
     private static final int ADD_PRODUCT = 0;
@@ -55,7 +55,7 @@ public class Product_ActivityRecycler extends AppCompatActivity{
         Intent intent;
         switch (item.getItemId()){
             /*case R.id.action_add_product:
-                intent = new Intent(Product_ActivityRecycler.this, ManageProduct_Activity.class);
+                intent = new Intent(ProductActivityRecycler.this, ManageProductFragment.class);
                 startActivityForResult(intent, ADD_PRODUCT);
                 mAdapter.notifyDataSetChanged();
                 break;*/
@@ -64,11 +64,11 @@ public class Product_ActivityRecycler extends AppCompatActivity{
                 ASC = !ASC;
                 break;
             case R.id.action_settings_general:
-                intent = new Intent(Product_ActivityRecycler.this, GeneralSettingsActivity.class);
+                intent = new Intent(ProductActivityRecycler.this, GeneralSettingsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_settings_account:
-                intent = new Intent(Product_ActivityRecycler.this, AccountSettingsActivity.class);
+                intent = new Intent(ProductActivityRecycler.this, AccountSettingsActivity.class);
                 startActivity(intent);
                 break;
         }

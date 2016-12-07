@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  * Interface to be implemented by Preferences classes
  */
-public interface IPreferences {
+public interface Preferences {
     int MODE = Context.MODE_PRIVATE;
-    //IPreferences getInstance(Context context);
+    //Preferences getInstance(Context context);
 }

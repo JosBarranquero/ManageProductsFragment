@@ -8,21 +8,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".ManageProducts_Application">
-        <activity android:name=".Login_Activity" android:windowSoftInputMode="adjustPan">
-
-        </activity>
-        <activity android:name=".Product_Activity">
+        android:name=".ManageProductsApplication">
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManageProduct_Activity" android:windowSoftInputMode="adjustPan" android:parentActivityName=".Product_Activity"/>
+        <activity android:name=".ListProductFragment">
+
+        </activity>
+        <activity android:name=".ManageProductFragment" android:windowSoftInputMode="adjustPan" android:parentActivityName=".ListProductFragment"/>
         <activity android:name=".GeneralSettingsActivity"/>
         <activity android:name=".AccountSettingsActivity"/>
-        <activity android:name=".Sign_Activity" android:parentActivityName=".Login_Activity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".SignupActivity" android:parentActivityName=".LoginActivity" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

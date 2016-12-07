@@ -4,24 +4,24 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.barranquero.manageproductsrecycler.interfaces.IPreferences;
+import com.barranquero.manageproductsrecycler.interfaces.Preferences;
 
 /**
  * Created by usuario on 10/11/16.
  */
 
-public class GeneralPreferences implements IPreferences {
-    private static IPreferences generalPreferences;
+public class GeneralPreferencesImpl implements Preferences {
+    private static Preferences generalPreferences;
     private SharedPreferences sharedPreferences;
 
-    public static IPreferences getInstance(Context context) {
+    public static Preferences getInstance(Context context) {
         if (generalPreferences == null) {
-            generalPreferences= new GeneralPreferences(context);
+            generalPreferences= new GeneralPreferencesImpl(context);
         }
         return generalPreferences;
     }
 
-    private GeneralPreferences(Context c) {
+    private GeneralPreferencesImpl(Context c) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
     }
 }

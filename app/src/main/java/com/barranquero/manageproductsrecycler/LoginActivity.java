@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.barranquero.manageproductsrecycler.interfaces.IValidateAccount;
-import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
+import com.barranquero.manageproductsrecycler.interfaces.LoginPresenter;
+import com.barranquero.manageproductsrecycler.presenter.LoginPresenterImpl;
 
 /**
  * This application uses the Model-View-Presenter philosophy
@@ -25,9 +25,9 @@ import com.barranquero.manageproductsrecycler.presenter.Login_Presenter;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Login_Activity extends AppCompatActivity implements IValidateAccount.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
 
-    private Login_Presenter mLoginMvp;
+    private LoginPresenterImpl mLoginMvp;
     private EditText mEdtPassword;
     private EditText mEdtUser;
     private Button mBtnLogin;
@@ -35,7 +35,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
     private TextView mTxvSignUp;
     private TextInputLayout mTilUser;
     private TextInputLayout mTilPassword;
-    private final String TAG = "Login_Activity";
+    private final String TAG = "LoginActivity";
     private ViewGroup layout;
 
     /**
@@ -47,7 +47,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
         setContentView(R.layout.activity_login);
         layout = (ViewGroup)findViewById(R.id.activity_login_relative);
 
-        mLoginMvp = new Login_Presenter(this);  // The Presenter has an Activity instance
+        mLoginMvp = new LoginPresenterImpl(this);  // The Presenter has an Activity instance
 
         mEdtUser = (EditText)findViewById(R.id.edtUser);
         mEdtUser.addTextChangedListener(new TextWatcher() {
@@ -78,7 +78,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
         mTxvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login_Activity.this, Sign_Activity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
@@ -120,7 +120,7 @@ public class Login_Activity extends AppCompatActivity implements IValidateAccoun
 
     @Override
     public void startActivity() {
-        Intent intent = new Intent(Login_Activity.this, Product_ActivityRecycler.class);
+        Intent intent = new Intent(LoginActivity.this, ProductActivityRecycler.class);
         startActivity(intent);
     }
 

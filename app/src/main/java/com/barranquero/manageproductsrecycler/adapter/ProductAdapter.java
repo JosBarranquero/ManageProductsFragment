@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.barranquero.manageproductsrecycler.ManageProducts_Application;
+import com.barranquero.manageproductsrecycler.ManageProductsApplication;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -27,7 +27,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
      * @param context
      */
     public ProductAdapter(Context context) {
-        super(context, R.layout.item_list_product, new ArrayList<>(((ManageProducts_Application)context.getApplicationContext()).getProducts()));
+        super(context, R.layout.item_list_product, new ArrayList<>(((ManageProductsApplication)context.getApplicationContext()).getProducts()));
     }
 
     private static boolean ASC = true;

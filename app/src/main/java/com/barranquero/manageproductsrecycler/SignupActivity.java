@@ -18,20 +18,20 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.barranquero.manageproductsrecycler.interfaces.IValidateUser;
-import com.barranquero.manageproductsrecycler.presenter.Signup_Presenter;
+import com.barranquero.manageproductsrecycler.interfaces.SignupPresenter;
+import com.barranquero.manageproductsrecycler.presenter.SignupPresenterImpl;
 
 /**
  * Class to sign up a user
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class Sign_Activity extends AppCompatActivity implements IValidateUser.View {
+public class SignupActivity extends AppCompatActivity implements SignupPresenter.View {
     private Spinner spCounty, spCity;
     private RadioGroup rdgUserType;
     private TextInputLayout tilCompanyName;
     private AdapterView.OnItemSelectedListener spinnerLister;
-    private Signup_Presenter presenter;
+    private SignupPresenterImpl presenter;
     private EditText edtUser, edtPassword, edtEmail;
     private ViewGroup layout;
 
@@ -41,7 +41,7 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         setContentView(R.layout.activity_sign);
         layout = (ViewGroup)findViewById(R.id.activity_sign);
 
-        presenter = new Signup_Presenter(this);
+        presenter = new SignupPresenterImpl(this);
 
         edtUser = (EditText)findViewById(R.id.edtUsername);
         edtPassword = (EditText)findViewById(R.id.edtNewPassword);
@@ -121,7 +121,7 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
         CharSequence[] city = typedArray.getTextArray(position);
         typedArray.recycle();
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Sign_Activity.this, android.R.layout.simple_spinner_item, city);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(SignupActivity.this, android.R.layout.simple_spinner_item, city);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCity.setAdapter(adapter);
     }
@@ -177,7 +177,7 @@ public class Sign_Activity extends AppCompatActivity implements IValidateUser.Vi
 
     @Override
     public void startActivity() {
-        Intent intent = new Intent(Sign_Activity.this, Product_ActivityRecycler.class);
+        Intent intent = new Intent(SignupActivity.this, ProductActivityRecycler.class);
         startActivity(intent);
         finish();
     }
