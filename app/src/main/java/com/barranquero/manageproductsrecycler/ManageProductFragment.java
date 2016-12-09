@@ -29,6 +29,27 @@ public class ManageProductFragment extends Fragment {
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
+    private ManageProductListener mCallback;
+
+    public interface ManageProductListener {
+        void showListProduct();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (ManageProductListener)activity;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(ex.getMessage() + " activity must implement ListProductListener interface");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallback = null;
+    }
 
     @Nullable
     @Override

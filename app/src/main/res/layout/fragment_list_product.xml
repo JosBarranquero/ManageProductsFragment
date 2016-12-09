@@ -7,17 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".ListProductFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-    </android.support.design.widget.AppBarLayout>
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listProduct"/>
+        android:id="@android:id/list"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/empty"
+        android:text="@string/nodata"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAdd"

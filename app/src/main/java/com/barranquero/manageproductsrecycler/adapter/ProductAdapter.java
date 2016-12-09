@@ -15,6 +15,7 @@ import com.barranquero.manageproductsrecycler.model.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Adapter which manages a ViewHolder collection
@@ -67,6 +68,11 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         } else {
             sort(Collections.reverseOrder());
         }
+    }
+
+    public void updateProduct(List<Product> products) {
+        clear();
+        addAll(products);
     }
 
     public void addProduct(Product product) {

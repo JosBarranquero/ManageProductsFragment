@@ -33,4 +33,6 @@
 
     <!-- %1 primer argumento, %2 segundo ; $s string ; $d double... -->
     <string name="message_county_city">You have chosen %1$s (%2$s)</string>
+
+    <string name="nodata">No data available</string>
 </resources>

@@ -9,29 +9,36 @@ import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
+import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
+import com.barranquero.manageproductsrecycler.presenter.ProductPresenterImpl;
+
+import java.util.List;
 
 
 /**
  * Class which shows the product list
+ *
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ListProductFragment extends Fragment implements IProduct {
-    private static final int ADD_PRODUCT = 0;
-    private static final int EDIT_PRODUCT = 1;
+public class ListProductFragment extends Fragment implements IProduct, ProductPresenter.View {
     private ProductAdapter mAdapter;
     private ListView mListProduct;
     private FloatingActionButton mFabAdd;
     private ListProductListener mCallback;
+    private TextView mTxvNoData;
+    private ProductPresenter mPresenter;
 
     public interface ListProductListener {
         void showManageProduct(Bundle bundle);
@@ -40,13 +47,20 @@ public class ListProductFragment extends Fragment implements IProduct {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAdapter = new ProductAdapter(getContext());
+        mPresenter = new ProductPresenterImpl(this);
+
+        setRetainInstance(true);
+        setHasOptionsMenu(true);    //This option tells the Activity that the Fragment has its own menu and calls callback method onCreateOptionsMenu()
+
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mCallback = (ListProductListener)activity;
+            mCallback = (ListProductListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(e.getMessage() + " activity must implement ListProductListener interface");
         }
@@ -58,16 +72,23 @@ public class ListProductFragment extends Fragment implements IProduct {
         mCallback = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter = null;
+        mPresenter = null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        setContentView(R.layout.fragment_list_product);
+        View rootView = inflater.inflate(R.layout.fragment_list_product, container, false);
 
-        mListProduct = (ListView)findViewById(R.id.listProduct);
-
-        mAdapter = new ProductAdapter(this);
+        mListProduct = (ListView) rootView.findViewById(android.R.id.list);
         mListProduct.setAdapter(mAdapter);
+
+        mTxvNoData = (TextView)rootView.findViewById(android.R.id.empty);
 
         registerForContextMenu(mListProduct);
 
@@ -75,42 +96,41 @@ public class ListProductFragment extends Fragment implements IProduct {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(PRODUCT_KEY, (Product)parent.getItemAtPosition(position));
-                Intent intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, EDIT_PRODUCT);
+                bundle.putParcelable(PRODUCT_KEY, (Product) parent.getItemAtPosition(position));
+                mCallback.showManageProduct(bundle);
             }
         });
 
-        mFabAdd = (FloatingActionButton)findViewById(R.id.fabAdd);
+        mFabAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAdd);
         mFabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
-                startActivityForResult(intent, ADD_PRODUCT);
-                mAdapter.notifyDataSetChanged();
+                mCallback.showManageProduct(null);
             }
         });
+        registerForContextMenu(mListProduct);
+        return rootView;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId() == R.id.listProduct) {
-            ListView listView = (ListView)v;
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            Product product = (Product)listView.getItemAtPosition(acmi.position);
-            menu.setHeaderTitle(product.getmName());
-            getMenuInflater().inflate(R.menu.menu_context, menu);
-        }
+
+        menu.setHeaderTitle("Product");
+        getActivity().getMenuInflater().inflate(R.menu.menu_context, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             /*case R.id.action_delete_product:
-
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(PRODUCT_KEY, (Product)mListProduct.getItemAtPosition(info.position));
+                ConfirmDialog dialog = new ConfirmDialog();
+                dialog.setPresenter(mPresenter);
+                dialog.setArguments(bundle);
+                dialog.show(getActivity().getSupportFragmentManager(), "SimpleDialog");
                 return true;
                 break;*/
             default:
@@ -121,24 +141,24 @@ public class ListProductFragment extends Fragment implements IProduct {
 
     /**
      * Method which inflates the ActionBar menu
-     * @param menu The Activity menu
+     *
+     * @param menu The Fragment menu
      * @return true for success
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_product, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_listproduct, menu);
     }
 
     /**
-     *
      * @param item The item that has been tapped on
      * @return true when the event controlled by this has been consumed, false when it hasn't and gets propagated
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             /*case R.id.action_add_product:
                 intent = new Intent(ListProductFragment.this, ManageProductFragment.class);
                 startActivityForResult(intent, ADD_PRODUCT);
@@ -147,34 +167,24 @@ public class ListProductFragment extends Fragment implements IProduct {
             case R.id.action_sort_alphabetically:
                 mAdapter.sortAlphabetically();
                 break;
-            case R.id.action_settings_general:
-                intent = new Intent(ListProductFragment.this, GeneralSettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.action_settings_account:
-                intent = new Intent(ListProductFragment.this, AccountSettingsActivity.class);
-                startActivity(intent);
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_PRODUCT){
-            if (resultCode == RESULT_OK) {
-                //Product product = (Product)data.getExtras().getParcelable(PRODUCT_KEY);
-                Product product = (Product)data.getParcelableExtra(PRODUCT_KEY);
-                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product);
-            }
-        } else if (requestCode == EDIT_PRODUCT) {
-            if (resultCode == RESULT_OK) {
-                //Product product = (Product)data.getExtras().getParcelable(PRODUCT_KEY);
-                //Product old = (Product)data.getExtras().getParcelable(OLD_KEY);
-                Product product = (Product)data.getParcelableExtra(PRODUCT_KEY);
-                Product old = (Product)data.getParcelableExtra(PRODUCT_KEY);
-                ((ProductAdapter)mListProduct.getAdapter()).addProduct(product, old);
-            }
-        }
+    public void showProducts(List<Product> products) {
+        mAdapter.updateProduct(products);
+    }
+
+    private void hideList(boolean hide) {
+        mListProduct.setVisibility(hide? View.GONE : View.VISIBLE);
+        mTxvNoData.setVisibility(hide? View.VISIBLE : View.GONE);
+    }
+
+    public void showEmptyState(boolean show) {
+        hideList(show);
+    }
+
+    public void showMessage(String message) {
+
     }
 }
