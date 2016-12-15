@@ -1,13 +1,5 @@
 package com.barranquero.manageproductsrecycler.interfaces;
 
-import android.text.TextUtils;
-
-import static com.barranquero.manageproductsrecycler.model.Error.DATA_EMPTY;
-import static com.barranquero.manageproductsrecycler.model.Error.OK;
-import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_CASE;
-import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_DIGIT;
-import static com.barranquero.manageproductsrecycler.model.Error.PASSWORD_LENGTH;
-
 /**
  * Interface with methods to implement by the View and the Presenter
  * @author José Antonio Barranquero Fernández

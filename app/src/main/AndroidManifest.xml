@@ -16,10 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListProductFragment">
-
-        </activity>
-        <activity android:name=".ManageProductFragment" android:windowSoftInputMode="adjustPan" android:parentActivityName=".ListProductFragment"/>
+        <activity android:name=".HomeActivity"/>
         <activity android:name=".GeneralSettingsActivity"/>
         <activity android:name=".AccountSettingsActivity"/>
         <activity android:name=".SignupActivity" android:parentActivityName=".LoginActivity" android:windowSoftInputMode="adjustPan"/>

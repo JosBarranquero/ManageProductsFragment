@@ -54,7 +54,8 @@ public class HomeActivity extends AppCompatActivity implements ListProductFragme
 
     @Override
     public void showManageProduct(Bundle bundle) {
-        manageProductFragment = new ManageProductFragment(bundle);
+        manageProductFragment = new ManageProductFragment();
+        manageProductFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framehome, manageProductFragment);
         ft.addToBackStack(null);

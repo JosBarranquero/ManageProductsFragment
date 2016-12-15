@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void startActivity() {
-        Intent intent = new Intent(LoginActivity.this, ProductActivityRecycler.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 

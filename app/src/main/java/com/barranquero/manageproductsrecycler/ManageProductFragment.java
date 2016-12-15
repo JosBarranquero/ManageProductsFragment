@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.model.Product;
+import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
 
 import java.util.Locale;
 
@@ -30,6 +31,7 @@ public class ManageProductFragment extends Fragment {
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
     private ManageProductListener mCallback;
+    private ManagePresenterImpl mPresenter;
 
     public interface ManageProductListener {
         void showListProduct();
@@ -41,7 +43,7 @@ public class ManageProductFragment extends Fragment {
         try {
             mCallback = (ManageProductListener)activity;
         } catch (ClassCastException ex) {
-            throw new ClassCastException(ex.getMessage() + " activity must implement ListProductListener interface");
+            throw new ClassCastException(ex.getMessage() + " activity must implement ManageProductListener interface");
         }
     }
 
@@ -55,33 +57,33 @@ public class ManageProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        View rootView = inflater.inflate(R.layout.fragment_manage_product, container, false);
 
-        mEdtName = (EditText) findViewById(R.id.edtName);
-        mEdtDesc = (EditText) findViewById(R.id.edtDesc);
-        mEdtBrand = (EditText) findViewById(R.id.edtBrand);
-        mEdtDosage = (EditText) findViewById(R.id.edtDosage);
-        mEdtStock = (EditText) findViewById(R.id.edtStock);
-        mEdtPrice = (EditText) findViewById(R.id.edtPrice);
-        mImgMedicine = (ImageButton) findViewById(R.id.imgMedicine);
+        mEdtName = (EditText)rootView.findViewById(R.id.edtName);
+        mEdtDesc = (EditText)rootView. findViewById(R.id.edtDesc);
+        mEdtBrand = (EditText) rootView.findViewById(R.id.edtBrand);
+        mEdtDosage = (EditText) rootView.findViewById(R.id.edtDosage);
+        mEdtStock = (EditText) rootView.findViewById(R.id.edtStock);
+        mEdtPrice = (EditText) rootView.findViewById(R.id.edtPrice);
+        mImgMedicine = (ImageButton) rootView.findViewById(R.id.imgMedicine);
         mImgMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                if (intent.resolveActivity(getPackageManager()) != null) {
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(intent, 1);
                 }
             }
         });
 
-        mBtnAddMed = (Button) findViewById(R.id.btnAddMed);
+        mBtnAddMed = (Button) rootView.findViewById(R.id.btnAddMed);
 
 
         Product product;
 
-        if (getIntent().getExtras() != null) {
-            product = getIntent().getExtras().getParcelable(Product.PRODUCT_KEY);
+        if (getActivity().getIntent().getExtras() != null) {
+            product = getActivity().getIntent().getExtras().getParcelable(Product.PRODUCT_KEY);
             mEdtName.setText(product.getmName());
             mEdtDesc.setText(product.getmDescription());
             mEdtBrand.setText(product.getmBrand());
@@ -106,6 +108,7 @@ public class ManageProductFragment extends Fragment {
                 }
             });
         }
+        return null;
     }
 
     private void saveProduct() {
@@ -121,8 +124,8 @@ public class ManageProductFragment extends Fragment {
 
         Intent intent = new Intent();
         intent.putExtra(IProduct.PRODUCT_KEY, product);
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        //setResult(Activity.RESULT_OK, intent);
+        //finish();
     }
 
     private void editProduct() {
@@ -138,8 +141,8 @@ public class ManageProductFragment extends Fragment {
 
         Intent intent = new Intent();
         intent.putExtra(IProduct.PRODUCT_KEY, product);
-        intent.putExtra(IProduct.OLD_KEY, getIntent().getExtras().getParcelable(Product.PRODUCT_KEY));
+        /*intent.putExtra(IProduct.OLD_KEY, getIntent().getExtras().getParcelable(Product.PRODUCT_KEY));
         setResult(Activity.RESULT_OK, intent);
-        finish();
+        finish();*/
     }
 }
