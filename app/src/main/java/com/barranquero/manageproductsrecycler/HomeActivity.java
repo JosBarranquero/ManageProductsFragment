@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements ListProductFragme
 
     @Override
     public void onBackPressed() {
-        if (mBackPressed + MAX_TIME > System.currentTimeMillis()) {
+        if (mBackPressed + MAX_TIME > System.currentTimeMillis() || getSupportFragmentManager().getBackStackEntryCount() > 0) {
             super.onBackPressed();
             return;
         } else {

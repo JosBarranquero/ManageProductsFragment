@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
+import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
 
@@ -23,7 +24,7 @@ import java.util.Locale;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ManageProductFragment extends Fragment {
+public class ManageProductFragment extends Fragment implements ManagePresenter.View {
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
@@ -38,6 +39,20 @@ public class ManageProductFragment extends Fragment {
         ManageProductFragment fragment = new ManageProductFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPresenter = new ManagePresenterImpl(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mPresenter = null;
     }
 
     @Override
@@ -100,18 +115,20 @@ public class ManageProductFragment extends Fragment {
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    editProduct();
+                    mPresenter.editProduct();
+                    mCallback.showListProduct();
                 }
             });
         } else {
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    saveProduct();
+                    mPresenter.saveProduct();
+                    mCallback.showListProduct();
                 }
             });
         }
-        return null;
+        return rootView;
     }
 
     private void saveProduct() {
@@ -121,7 +138,7 @@ public class ManageProductFragment extends Fragment {
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.cajaMedicamentos;
+        int image = R.drawable.caja_medicamentos;
 
         Product product = new Product(name, description, brand, dosage, price, stock, image);
 
@@ -138,7 +155,7 @@ public class ManageProductFragment extends Fragment {
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.cajaMedicamentos;
+        int image = R.drawable.caja_medicamentos;
 
         Product product = new Product(name, description, brand, dosage, price, stock, image);
 
