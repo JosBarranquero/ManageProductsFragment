@@ -13,7 +13,7 @@
     <ImageButton
         android:layout_width="@dimen/img_width"
         android:layout_height="@dimen/img_height"
-        android:src="@drawable/cajamedicamentos"
+        android:src="@drawable/cajaMedicamentos"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

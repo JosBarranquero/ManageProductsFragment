@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
@@ -22,7 +20,6 @@ import java.util.Locale;
 
 /**
  * Class which adds a product to our list
- *
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
@@ -35,6 +32,12 @@ public class ManageProductFragment extends Fragment {
 
     public interface ManageProductListener {
         void showListProduct();
+    }
+
+    public static ManageProductFragment newInstance(Bundle bundle) {
+        ManageProductFragment fragment = new ManageProductFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -82,8 +85,8 @@ public class ManageProductFragment extends Fragment {
 
         Product product;
 
-        if (getActivity().getIntent().getExtras() != null) {
-            product = getActivity().getIntent().getExtras().getParcelable(Product.PRODUCT_KEY);
+        if (getArguments() != null) {
+            product = getArguments().getParcelable(IProduct.PRODUCT_KEY);
             mEdtName.setText(product.getmName());
             mEdtDesc.setText(product.getmDescription());
             mEdtBrand.setText(product.getmBrand());
@@ -118,7 +121,7 @@ public class ManageProductFragment extends Fragment {
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.cajamedicamentos;
+        int image = R.drawable.cajaMedicamentos;
 
         Product product = new Product(name, description, brand, dosage, price, stock, image);
 
@@ -135,7 +138,7 @@ public class ManageProductFragment extends Fragment {
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.cajamedicamentos;
+        int image = R.drawable.cajaMedicamentos;
 
         Product product = new Product(name, description, brand, dosage, price, stock, image);
 

@@ -13,9 +13,15 @@ public interface ProductPresenter {
     void deleteProduct(Product product);
     void onDestroy();
 
+    void addProduct(Product product);
+
+    //void deleteFinallyProduct(Product product);
+
+
     interface View {
         void showProducts(List<Product> products);
         void showEmptyState(boolean show);
         void showMessage(String message);
+        void showMessageDelete(Product product);
     }
 }

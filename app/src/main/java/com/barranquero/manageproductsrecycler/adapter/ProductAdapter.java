@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.ManageProductsApplication;
+import com.barranquero.manageproductsrecycler.ProductRepository;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -22,13 +23,17 @@ import java.util.List;
  * It's not necessary to call notifyDataSetChanged() after add(), insert(), remove(), clear(), sort()... because these methods call it automatically and it uses the local copy
  */
 public class ProductAdapter extends ArrayAdapter<Product> {
+    List<Product> list;
+    Context context;
 
     /**
      * Third param for super = ArrayList with Repository elements. A different local copy from the repository
      * @param context
      */
     public ProductAdapter(Context context) {
-        super(context, R.layout.item_list_product, new ArrayList<>(((ManageProductsApplication)context.getApplicationContext()).getProducts()));
+        super(context, R.layout.item_list_product, ProductRepository.getInstance().getProducts());
+        this.context = context;
+        this.list = ProductRepository.getInstance().getProducts();
     }
 
     private static boolean ASC = true;
@@ -53,10 +58,10 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         } else {
             productHolder = (ProductHolder)view.getTag();
         }
-        productHolder.imgProduct.setImageResource(getItem(position).getmImage());
-        productHolder.txvProductName.setText(getItem(position).getmName());
-        productHolder.txvProductPrice.setText(getItem(position).getFormattedPrice());
-        productHolder.txvProductStock.setText(getItem(position).getFormattedStock());
+        productHolder.imgProduct.setImageResource(list.get(position).getmImage());
+        productHolder.txvProductName.setText(list.get(position).getmName());
+        productHolder.txvProductPrice.setText(list.get(position).getFormattedPrice());
+        productHolder.txvProductStock.setText(list.get(position).getFormattedStock());
 
         return view;
     }
@@ -77,6 +82,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
     public void addProduct(Product product) {
         add(product);
+        sort(Product.NAME_COMPARATOR);
     }
 
     public void addProduct(Product product, Product old) {

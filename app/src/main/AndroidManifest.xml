@@ -10,13 +10,15 @@
         android:theme="@style/AppTheme"
         android:name=".ManageProductsApplication">
         <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan">
+
+        </activity>
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"/>
         <activity android:name=".GeneralSettingsActivity"/>
         <activity android:name=".AccountSettingsActivity"/>
         <activity android:name=".SignupActivity" android:parentActivityName=".LoginActivity" android:windowSoftInputMode="adjustPan"/>

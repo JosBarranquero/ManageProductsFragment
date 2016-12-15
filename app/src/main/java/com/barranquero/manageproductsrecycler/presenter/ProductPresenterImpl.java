@@ -33,18 +33,32 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
 
     @Override
     public void deleteProduct(Product product) {
-        repository.deleteProduct(product);
+        //repository.deleteProduct(product);
 
         //Depends on the implementation
-        loadProducts();
+        //loadProducts();
         /*view.deleteProduct();
         if (view.getAdapter().isEmpty()) {
             view.showEmptyState(true);
         }*/
+        view.showMessageDelete(product);
     }
 
     @Override
     public void onDestroy() {
         this.view = null;
     }
+
+    @Override
+    public void addProduct(Product product) {
+        repository.addProduct(product);
+        view.showProducts(repository.getProducts());
+    }
+
+    /* Example implementation to delete product once the SnackBar times out
+    @Override
+    public void deleteFinallyProduct(Product product) {
+        repository.deleteProduct(product);
+        loadProducts();
+    }*/
 }
