@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
+import com.barranquero.manageproductsrecycler.dialog.ConfirmDialog;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
@@ -125,15 +126,15 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            /*case R.id.action_delete_product:
-                Bundle bundle = new Bundle();
+            case R.id.action_delete_product:
+                /*Bundle bundle = new Bundle();
                 bundle.putParcelable(PRODUCT_KEY, (Product)mListProduct.getItemAtPosition(info.position));
                 ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setPresenter(mPresenter);
+                //dialog.setPresenter(mPresenter);
                 dialog.setArguments(bundle);
-                dialog.show(getActivity().getSupportFragmentManager(), "SimpleDialog");
+                dialog.show(getActivity().getSupportFragmentManager(), "SimpleDialog");*/
+
                 return true;
-                break;*/
             default:
                 return super.onContextItemSelected(item);
         }

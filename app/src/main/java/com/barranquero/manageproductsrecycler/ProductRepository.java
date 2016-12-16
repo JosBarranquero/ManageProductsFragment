@@ -52,6 +52,10 @@ public class ProductRepository {
     }
 
     public void deleteProduct(Product product) {
+        products.remove(product);
+    }
+
+    public void updateProduct(Product product) {
 
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
@@ -30,6 +32,12 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     private ImageButton mImgMedicine;
     private ManageProductListener mCallback;
     private ManagePresenterImpl mPresenter;
+    private View parent;
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(parent, getString(Integer.parseInt(message)), Snackbar.LENGTH_SHORT);
+    }
 
     public interface ManageProductListener {
         void showListProduct();
@@ -77,6 +85,8 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_manage_product, container, false);
 
+        parent = rootView.findViewById(R.id.activity_add_product);
+
         mEdtName = (EditText)rootView.findViewById(R.id.edtName);
         mEdtDesc = (EditText)rootView. findViewById(R.id.edtDesc);
         mEdtBrand = (EditText) rootView.findViewById(R.id.edtBrand);
@@ -98,7 +108,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         mBtnAddMed = (Button) rootView.findViewById(R.id.btnAddMed);
 
 
-        Product product;
+        final Product product;
 
         if (getArguments() != null) {
             product = getArguments().getParcelable(IProduct.PRODUCT_KEY);
@@ -115,7 +125,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mPresenter.editProduct();
+                    updateProduct(product);
                     mCallback.showListProduct();
                 }
             });
@@ -123,7 +133,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mPresenter.saveProduct();
+                    saveProduct();
                     mCallback.showListProduct();
                 }
             });
@@ -142,13 +152,10 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
 
         Product product = new Product(name, description, brand, dosage, price, stock, image);
 
-        Intent intent = new Intent();
-        intent.putExtra(IProduct.PRODUCT_KEY, product);
-        //setResult(Activity.RESULT_OK, intent);
-        //finish();
+        mPresenter.saveProduct(product);
     }
 
-    private void editProduct() {
+    private void updateProduct(Product product) {
         String name = mEdtName.getText().toString();
         String description = mEdtDesc.getText().toString();
         String brand = mEdtBrand.getText().toString();
@@ -157,12 +164,8 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         int stock = Integer.parseInt(mEdtStock.getText().toString());
         int image = R.drawable.caja_medicamentos;
 
-        Product product = new Product(name, description, brand, dosage, price, stock, image);
+        Product product1 = new Product(name, description, brand, dosage, price, stock, image);
 
-        Intent intent = new Intent();
-        intent.putExtra(IProduct.PRODUCT_KEY, product);
-        /*intent.putExtra(IProduct.OLD_KEY, getIntent().getExtras().getParcelable(Product.PRODUCT_KEY));
-        setResult(Activity.RESULT_OK, intent);
-        finish();*/
+        mPresenter.updateProduct(product, product1);
     }
 }
