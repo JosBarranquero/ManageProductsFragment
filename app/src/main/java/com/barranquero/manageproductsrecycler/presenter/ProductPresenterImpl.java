@@ -22,6 +22,7 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
         if (repository.getProducts().isEmpty()) {
             view.showEmptyState(true);
         } else {
+            view.showEmptyState(false);
             view.showProducts(repository.getProducts());
         }
     }

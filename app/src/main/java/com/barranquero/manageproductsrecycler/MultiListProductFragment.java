@@ -19,11 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.adapter.ProductAdapter;
-import com.barranquero.manageproductsrecycler.dialog.ConfirmDialog;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.ProductPresenterImpl;
+import com.barranquero.manageproductsrecycler.utils.SelectionUtils;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import java.util.List;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ListProductFragment extends Fragment implements IProduct, ProductPresenter.View {
+public class MultiListProductFragment extends Fragment implements IProduct, ProductPresenter.View {
     private ProductAdapter mAdapter;
     private ListView mListProduct;
     private FloatingActionButton mFabAdd;
@@ -89,11 +89,9 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
 
         mListProduct = (ListView) rootView.findViewById(android.R.id.list);
 
-
         mTxvNoData = (TextView)rootView.findViewById(android.R.id.empty);
 
-        registerForContextMenu(mListProduct);
-
+        //registerForContextMenu(mListProduct);
 
         mFabAdd = (FloatingActionButton) rootView.findViewById(R.id.fabAdd);
         mFabAdd.setOnClickListener(new View.OnClickListener() {
@@ -102,35 +100,8 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
                 mCallback.showManageProduct(null);
             }
         });
-        registerForContextMenu(mListProduct);
+
         return rootView;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        menu.setHeaderTitle("Product");
-        getActivity().getMenuInflater().inflate(R.menu.menu_context, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.action_delete_product:
-                /*Bundle bundle = new Bundle();
-                bundle.putParcelable(PRODUCT_KEY, (Product)mListProduct.getItemAtPosition(info.position));
-                ConfirmDialog dialog = new ConfirmDialog();
-                //dialog.setPresenter(mPresenter);
-                dialog.setArguments(bundle);
-                dialog.show(getActivity().getSupportFragmentManager(), "SimpleDialog");*/
-
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-
     }
 
     /**
@@ -143,23 +114,6 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_listproduct, menu);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mListProduct.setAdapter(mAdapter);
-        mListProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(PRODUCT_KEY, (Product) parent.getItemAtPosition(position));
-                mCallback.showManageProduct(bundle);
-            }
-        });
-        //mListProduct.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        //SimpleMultipleChoiceModeListener mcl = new SimpleMultipleChoiceModeListener();
-        //mListProduct.setMultiChoiceModeListener(mcl);
     }
 
     /**
@@ -180,6 +134,32 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mListProduct.setAdapter(mAdapter);
+        mListProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(PRODUCT_KEY, (Product) parent.getItemAtPosition(position));
+                mCallback.showManageProduct(bundle);
+            }
+        });
+        mListProduct.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        SimpleMultipleChoiceModeListener mcl = new SimpleMultipleChoiceModeListener(getActivity());
+        mListProduct.setMultiChoiceModeListener(mcl);
+        final SelectionUtils selectionUtils = new SelectionUtils(mListProduct.getCheckedItemPositions());
+        mListProduct.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                selectionUtils.setSparseBoolean(mListProduct.getCheckedItemPositions());
+                mListProduct.setItemChecked(position, !selectionUtils.isPositionChecker(position));
+                return true;
+            }
+        });
     }
 
     public void showProducts(List<Product> products) {

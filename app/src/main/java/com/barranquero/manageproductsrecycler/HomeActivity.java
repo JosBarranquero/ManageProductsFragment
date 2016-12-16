@@ -1,22 +1,18 @@
 package com.barranquero.manageproductsrecycler;
 
-import android.os.Handler;
-import android.provider.Settings;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
- * Created by usuario on 1/12/16.
+ * Created by usuario on 1/12/16
  */
-public class HomeActivity extends AppCompatActivity implements ListProductFragment.ListProductListener, ManageProductFragment.ManageProductListener {
-    private ListProductFragment listProductFragment;
+public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.ListProductListener {
+    private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
     private long mBackPressed = 0;
     private static final long MAX_TIME = 2500;
@@ -26,7 +22,7 @@ public class HomeActivity extends AppCompatActivity implements ListProductFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        listProductFragment = new ListProductFragment();
+        listProductFragment = new MultiListProductFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
     }
 
