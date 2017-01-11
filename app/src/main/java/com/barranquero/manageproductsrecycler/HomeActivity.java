@@ -20,7 +20,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.content_navigation);
 
         listProductFragment = new MultiListProductFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
