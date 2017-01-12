@@ -3,16 +3,20 @@ package com.barranquero.manageproductsrecycler;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by usuario on 1/12/16
@@ -27,6 +31,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private android.support.v4.widget.DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +49,19 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
 
         setupDrawerContent();
 
+        mActionBarDrawerToggle = setupDrawerToggle();
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+
         if (savedInstanceState == null) {
             listProductFragment = new MultiListProductFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
         }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mActionBarDrawerToggle.syncState();
     }
 
     /**
@@ -64,14 +79,14 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
                     case R.id.action_chemist:
                         //onListChemistListener();
                         break;
-                    case R.id.action_home:
+                    /*case R.id.action_home:
                         break;
                     case R.id.action_sale:
                         break;
                     case R.id.action_help:
                         break;
                     case R.id.action_settings:
-                        break;
+                        break;*/
                     default:
                         item.setChecked(false);
                         break;
@@ -83,6 +98,10 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         });
     }
 
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -92,13 +111,17 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
 
     @Override
     public void onBackPressed() {
-        if (mBackPressed + MAX_TIME > System.currentTimeMillis() || getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            super.onBackPressed();
-            return;
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            if (mBackPressed + MAX_TIME > System.currentTimeMillis() || getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                super.onBackPressed();
+                return;
+            } else {
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            }
+            mBackPressed = System.currentTimeMillis();
         }
-        mBackPressed = System.currentTimeMillis();
     }
 
     /**
