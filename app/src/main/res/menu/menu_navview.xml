@@ -14,4 +14,14 @@
             android:icon="@drawable/ic_action_sale"
             android:title="@string/sale"/>
     </group>
+    <item android:title="@string/settings">
+        <menu>
+            <item android:id="@+id/action_help"
+                android:icon="@drawable/ic_action_help"
+                android:title="@string/help"/>
+            <item android:id="@+id/action_settings"
+                android:icon="@drawable/ic_action_settings"
+                android:title="@string/settings"/>
+        </menu>
+    </item>
 </menu>

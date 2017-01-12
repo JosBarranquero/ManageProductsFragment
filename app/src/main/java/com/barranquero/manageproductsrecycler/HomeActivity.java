@@ -2,8 +2,14 @@ package com.barranquero.manageproductsrecycler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,13 +23,64 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private long mBackPressed = 0;
     private static final long MAX_TIME = 2500;
 
+    private Toolbar mToolbar;
+    private android.support.v4.widget.DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_navigation);
 
-        listProductFragment = new MultiListProductFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+        mNavigationView = (NavigationView)findViewById(R.id.navigation_view);
+
+        setupDrawerContent();
+
+        if (savedInstanceState == null) {
+            listProductFragment = new MultiListProductFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.framehome, listProductFragment).commit();
+        }
+    }
+
+    /**
+     * Method which controls the selected option
+     */
+    private void setupDrawerContent() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setChecked(true);
+                switch (item.getItemId()) {
+                    case R.id.action_products:
+                        //onListProductListener();
+                        break;
+                    case R.id.action_chemist:
+                        //onListChemistListener();
+                        break;
+                    case R.id.action_home:
+                        break;
+                    case R.id.action_sale:
+                        break;
+                    case R.id.action_help:
+                        break;
+                    case R.id.action_settings:
+                        break;
+                    default:
+                        item.setChecked(false);
+                        break;
+                }
+                setTitle(item.getTitle());
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -59,6 +116,9 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
             case R.id.action_settings_account:
                 intent = new Intent(HomeActivity.this, AccountSettingsActivity.class);
                 startActivity(intent);
+                break;
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
         }
         return super.onOptionsItemSelected(item);
