@@ -81,7 +81,7 @@ public class SimpleMultipleChoiceModeListener implements AbsListView.MultiChoice
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ((AppCompatActivity) myContext).getWindow().setStatusBarColor(myStatusBarColor);
         }
-        //preseneter.clearSelection();
+        //presenter.clearSelection();
         /*for (View v :
                 listView) {
             v.setVisibility(View.VISIBLE);

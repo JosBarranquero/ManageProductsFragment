@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.barranquero.manageproductsrecycler.ManageProductsApplication;
+import com.barranquero.manageproductsrecycler.ProductRepository;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -24,7 +25,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public ProductAdapterRecycler(Context c) {
         this.context = c;
-        products = new ArrayList<Product>(((ManageProductsApplication)context.getApplicationContext()).getProducts());
+        products = ProductRepository.getInstance().getProducts();
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     public void getAllProducts(int option, boolean ASC){
         products.clear();
-        products.addAll(((ManageProductsApplication)context.getApplicationContext()).getProducts());
+        products.addAll(ProductRepository.getInstance().getProducts());
         // The view gets notified. Viewable-viewer pattern
         notifyDataSetChanged();
     }

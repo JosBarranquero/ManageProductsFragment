@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
     private NavigationView mNavigationView;
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
