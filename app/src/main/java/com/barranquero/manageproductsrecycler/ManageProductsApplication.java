@@ -12,11 +12,16 @@ import java.util.List;
 
 
 public class ManageProductsApplication extends Application {
+    public static ManageProductsApplication manageProductsApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        manageProductsApplication = this;
+        DatabaseHelper.getInstance().open();
+    }
 
-        DatabaseHelper.getInstance(this).open();
+    public static ManageProductsApplication getContext() {
+        return manageProductsApplication;
     }
 }

@@ -1,6 +1,7 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
 import com.barranquero.manageproductsrecycler.ProductRepository;
+import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.dialog.ConfirmDialog;
 import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
@@ -19,17 +20,17 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
 
     @Override
     public void loadProducts() {
-        if (repository.getProducts().isEmpty()) {
+        if (DatabaseManager.getInstance().getProducts().isEmpty()) {
             view.showEmptyState(true);
         } else {
             view.showEmptyState(false);
-            view.showProducts(repository.getProducts());
+            view.showProducts(DatabaseManager.getInstance().getProducts());
         }
     }
 
     @Override
     public Product getProduct(int id) {
-        return repository.getProduct(id);
+        return DatabaseManager.getInstance().getProduct(id);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
 
     @Override
     public void addProduct(Product product) {
-        repository.addProduct(product);
-        view.showProducts(repository.getProducts());
+        DatabaseManager.getInstance().addProduct(product);
+        view.showProducts(DatabaseManager.getInstance().getProducts());
     }
 
     /* Example implementation to delete product once the SnackBar times out

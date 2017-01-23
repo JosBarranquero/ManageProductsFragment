@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.barranquero.manageproductsrecycler.ManageProductsApplication;
 import com.barranquero.manageproductsrecycler.ProductRepository;
 import com.barranquero.manageproductsrecycler.R;
+import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 import java.util.ArrayList;
@@ -31,9 +32,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
      * @param context
      */
     public ProductAdapter(Context context) {
-        super(context, R.layout.item_list_product, ProductRepository.getInstance().getProducts());
+        super(context, R.layout.item_list_product, DatabaseManager.getInstance().getProducts());
         this.context = context;
-        this.list = ProductRepository.getInstance().getProducts();
+        this.list = DatabaseManager.getInstance().getProducts();
     }
 
     private static boolean ASC = true;

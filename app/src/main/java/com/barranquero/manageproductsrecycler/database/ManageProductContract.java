@@ -70,7 +70,7 @@ public final class ManageProductContract {
                 COLUMN_PHONE,
                 COLUMN_EMAIL
         );
-        public static final String SQL_DELETE_ENTRIES = String.format("DROP DATABASE IF EXISTS %s", TABLE_NAME);
+        public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
     }
 
     public static class InvoiceStatusEntry implements BaseColumns {

@@ -191,4 +191,6 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
         else
             return this.getmName().compareTo(p.getmName());
     }
+
+
 }
