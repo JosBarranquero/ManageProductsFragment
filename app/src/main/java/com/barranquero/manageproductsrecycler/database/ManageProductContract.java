@@ -18,6 +18,7 @@ public final class ManageProductContract {
         public static final String COLUMN_NAME = "name";
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL)", TABLE_NAME, BaseColumns._ID, COLUMN_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'Farmaco')", TABLE_NAME);
     }
 
     public static class ProductEntry implements BaseColumns {
@@ -30,16 +31,17 @@ public final class ManageProductContract {
         public static final String COLUMN_STOCK = "stock";
         public static final String COLUMN_IMAGE = "image";
         public static final String COLUMN_IDCATEGORY = "id_category";
+        public static final String[] ALL_COLUMNS = new String[]{BaseColumns._ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_BRAND, COLUMN_DOSAGE, COLUMN_PRICE, COLUMN_STOCK, COLUMN_IMAGE, COLUMN_IDCATEGORY};
         public static final String REFERENCE_ID_CATEGORY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", CategoryEntry.TABLE_NAME, BaseColumns._ID);
-        public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "%s TEXT NOT NULL,"+
-                "%s TEXT NOT NULL,"+
-                "%s TEXT NOT NULL,"+
-                "%s TEXT NOT NULL,"+
-                "%s REAL NOT NULL,"+
-                "%s INTEGER NOT NULL,"+
-                "%s TEXT NOT NULL,"+
-                "%s INTEGER NOT NULL %s )",
+        public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s REAL NOT NULL," +
+                        "%s INTEGER NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s INTEGER NOT NULL %s )",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_NAME,
                 COLUMN_DESCRIPTION,
@@ -59,11 +61,11 @@ public final class ManageProductContract {
         public static final String COLUMN_ADDRESS = "address";
         public static final String COLUMN_PHONE = "phone";
         public static final String COLUMN_EMAIL = "email";
-        public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"+
-                "%s TEXT NOT NULL,"+
-                "%s TEXT NOT NULL,"+
-                "%s TEXT NOT NULL," +
-                "%s TEXT NOT NULL)",
+        public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL," +
+                        "%s TEXT NOT NULL)",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_CIF,
                 COLUMN_ADDRESS,
@@ -77,7 +79,7 @@ public final class ManageProductContract {
         public static final String TABLE_NAME = "invoiceStatus";
         public static final String COLUMN_NAME = "name";
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "%s TEXT NOT NULL)",
+                        "%s TEXT NOT NULL)",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
@@ -91,9 +93,9 @@ public final class ManageProductContract {
         public static final String REFERENCE_ID_PHARMACY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", PharmacyEntry.TABLE_NAME, BaseColumns._ID);
         public static final String REFERENCE_STATUS = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", InvoiceStatusEntry.TABLE_NAME, BaseColumns._ID);
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "%s INTEGER NOT NULL %s," +
-                "%s TEXT NOT NULL," +
-                "%s INTEGER NOT NULL %s)",
+                        "%s INTEGER NOT NULL %s," +
+                        "%s TEXT NOT NULL," +
+                        "%s INTEGER NOT NULL %s)",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_IDPHARMACY, REFERENCE_ID_PHARMACY,
                 COLUMN_DATE,
@@ -111,10 +113,10 @@ public final class ManageProductContract {
         public static final String REFERENCE_ID_INVOICE = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", InvoiceEntry.TABLE_NAME, BaseColumns._ID);
         public static final String REFERENCE_ID_PRODUCT = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", ProductEntry.TABLE_NAME, BaseColumns._ID);
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER NOT NULL %s," +
-                "%s INTEGER NOT NULL," +
-                "%s INTEGER NOT NULL %s," +
-                "%s INTEGER NOT NULL," +
-                "%s REAL NOT NULL)",
+                        "%s INTEGER NOT NULL," +
+                        "%s INTEGER NOT NULL %s," +
+                        "%s INTEGER NOT NULL," +
+                        "%s REAL NOT NULL)",
                 TABLE_NAME, COLUMN_IDINVOICE, REFERENCE_ID_INVOICE,
                 COLUMN_ORDERPRODUCT,
                 COLUMN_IDPRODUCT, REFERENCE_ID_PRODUCT,

@@ -150,7 +150,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         int stock = Integer.parseInt(mEdtStock.getText().toString());
         int image = R.drawable.caja_medicamentos;
 
-        Product product = new Product(name, description, brand, dosage, price, stock, image);
+        Product product = new Product(name, description, brand, dosage, price, stock, image, 1);
 
         mPresenter.saveProduct(product);
     }
@@ -164,7 +164,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         int stock = Integer.parseInt(mEdtStock.getText().toString());
         int image = R.drawable.caja_medicamentos;
 
-        Product product1 = new Product(name, description, brand, dosage, price, stock, image);
+        Product product1 = new Product(name, description, brand, dosage, price, stock, image, 1);
 
         mPresenter.updateProduct(product, product1);
     }

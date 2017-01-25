@@ -16,20 +16,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  * ManageProductsFragment
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "ManageProduct.db";
     private volatile static DatabaseHelper databaseHelper;
     private AtomicInteger mOpenCounter;
     private SQLiteDatabase mDatabase;
 
-    private DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    private DatabaseHelper() {
+        super(ManageProductsApplication.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
         mOpenCounter = new AtomicInteger();
     }
 
     public synchronized static DatabaseHelper getInstance() {
         if (databaseHelper == null) {
-            databaseHelper = new DatabaseHelper(ManageProductsApplication.getContext());
+            databaseHelper = new DatabaseHelper();
         }
         return databaseHelper;
     }
@@ -52,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             db.execSQL(ManageProductContract.CategoryEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(ManageProductContract.CategoryEntry.SQL_INSERT_DEFAULT);
             db.execSQL(ManageProductContract.ProductEntry.SQL_CREATE_ENTRIES);
             db.execSQL(ManageProductContract.PharmacyEntry.SQL_CREATE_ENTRIES);
             db.execSQL(ManageProductContract.InvoiceStatusEntry.SQL_CREATE_ENTRIES);

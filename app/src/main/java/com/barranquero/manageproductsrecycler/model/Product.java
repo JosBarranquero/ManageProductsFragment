@@ -22,6 +22,7 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
     private double mPrice;
     private int mStock;
     private int mImage;
+    private int mCategory;
 
     public static final Comparator<Product> NAME_COMPARATOR = new Comparator<Product>() {
         @Override
@@ -55,7 +56,8 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
         }
     };
 
-    public Product(String mName, String mDescription, String mBrand, String mDosage, double mPrice, int mStock, int mImage) {
+
+    public Product(String mName, String mDescription, String mBrand, String mDosage, double mPrice, int mStock, int mImage, int mCategory) {
         this.mName = mName;
         this.mDescription = mDescription;
         this.mBrand = mBrand;
@@ -63,6 +65,11 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
         this.mPrice = mPrice;
         this.mStock = mStock;
         this.mImage = mImage;
+        this.mCategory = mCategory;
+    }
+
+    public Product() {
+
     }
 
     @Override
@@ -193,4 +200,11 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
     }
 
 
+    public int getmCategory() {
+        return mCategory;
+    }
+
+    public void setmCategory(int mCategory) {
+        this.mCategory = mCategory;
+    }
 }

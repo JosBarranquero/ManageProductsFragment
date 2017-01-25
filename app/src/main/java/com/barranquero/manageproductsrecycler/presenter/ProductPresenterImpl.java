@@ -11,11 +11,11 @@ import com.barranquero.manageproductsrecycler.model.Product;
  */
 public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnDeleteProductListener {
     private ProductPresenter.View view;
-    private ProductRepository repository;
+    //private ProductRepository repository;
 
     public ProductPresenterImpl(ProductPresenter.View view) {
         this.view = view;
-        this.repository = ProductRepository.getInstance();
+        //this.repository = ProductRepository.getInstance();
     }
 
     @Override
