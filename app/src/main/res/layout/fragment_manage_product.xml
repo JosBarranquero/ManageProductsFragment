@@ -65,11 +65,17 @@
             android:id="@+id/edtDesc" />
     </LinearLayout>
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spCategory"
+        android:layout_below="@id/lyDesc"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lyDesc"
+        android:layout_below="@id/spCategory"
         android:id="@+id/lyBrand">
 
 

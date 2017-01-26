@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.Spinner;
 
+import com.barranquero.manageproductsrecycler.database.ManageProductContract;
+import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
+import com.barranquero.manageproductsrecycler.presenter.CategoryPresenterImpl;
 import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
 
 import java.util.Locale;
@@ -26,12 +30,15 @@ import java.util.Locale;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ManageProductFragment extends Fragment implements ManagePresenter.View {
+public class ManageProductFragment extends Fragment implements ManagePresenter.View, CategoryPresenter.View {
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
     private ManageProductListener mCallback;
-    private ManagePresenterImpl mPresenter;
+    private ManagePresenterImpl managePresenter;
+    private CategoryPresenter categoryPresenter;
+    private Spinner spCategory;
+    private SimpleCursorAdapter cursorAdapter;
     private View parent;
 
     @Override
@@ -53,14 +60,16 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = new ManagePresenterImpl(this);
+        managePresenter = new ManagePresenterImpl(this);
+        categoryPresenter = new CategoryPresenterImpl(this);
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mPresenter = null;
+        managePresenter = null;
     }
 
     @Override
@@ -104,7 +113,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
                 }
             }
         });
-
+        spCategory = (Spinner)rootView.findViewById(R.id.spCategory);
         mBtnAddMed = (Button) rootView.findViewById(R.id.btnAddMed);
 
 
@@ -119,7 +128,6 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
             mEdtStock.setText(Integer.toString(product.getmStock()));
             mEdtPrice.setText(String.format(Locale.US, Double.toString(product.getmPrice())));
             mImgMedicine.setImageResource(product.getmImage());
-
             mBtnAddMed.setText(getResources().getString(R.string.edit_product));
 
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +149,23 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String[] from = {ManageProductContract.CategoryEntry.COLUMN_NAME};
+        int[] to = {android.R.id.text1};
+        cursorAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null, from, to, 0);
+        cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategory.setAdapter(cursorAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Calls the presenter to load the data
+        categoryPresenter.getAllCategory(cursorAdapter);
+    }
+
     private void saveProduct() {
         String name = mEdtName.getText().toString();
         String description = mEdtDesc.getText().toString();
@@ -152,7 +177,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
 
         Product product = new Product(name, description, brand, dosage, price, stock, image, 1);
 
-        mPresenter.saveProduct(product);
+        managePresenter.saveProduct(product);
     }
 
     private void updateProduct(Product product) {
@@ -166,6 +191,6 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
 
         Product product1 = new Product(name, description, brand, dosage, price, stock, image, 1);
 
-        mPresenter.updateProduct(product, product1);
+        managePresenter.updateProduct(product, product1);
     }
 }

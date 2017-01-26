@@ -1,5 +1,7 @@
 package com.barranquero.manageproductsrecycler.interfaces;
 
+import android.content.Context;
+
 import com.barranquero.manageproductsrecycler.model.Product;
 
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by usuario on 9/12/16.
  */
 public interface ProductPresenter {
-    void loadProducts();
+    void getAllProducts();
     Product getProduct(int id);
     void deleteProduct(Product product);
     void onDestroy();
@@ -23,5 +25,7 @@ public interface ProductPresenter {
         void showEmptyState(boolean show);
         void showMessage(String message);
         void showMessageDelete(Product product);
+
+        Context getContext();
     }
 }

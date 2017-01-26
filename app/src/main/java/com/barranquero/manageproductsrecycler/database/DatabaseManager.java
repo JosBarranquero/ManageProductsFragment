@@ -31,7 +31,11 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-    public List<Product> getProducts() {
+    /**
+     * Method which returns all products
+     * @return List with all the products
+     */
+    public List<Product> getAllProducts() {
         ArrayList<Product> products = new ArrayList<>();
         Product product;
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
@@ -55,10 +59,17 @@ public class DatabaseManager {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+
         DatabaseHelper.getInstance().closeDatabase();
         return products;
     }
 
+    /**
+     * Method which returns a single product
+     * @param id    The product ID
+     * @return      The product
+     */
     public Product getProduct(int id) {
         return null;
     }
@@ -73,14 +84,18 @@ public class DatabaseManager {
         contentValues.put(ManageProductContract.ProductEntry.COLUMN_PRICE, product.getmPrice());
         contentValues.put(ManageProductContract.ProductEntry.COLUMN_STOCK, product.getmStock());
         contentValues.put(ManageProductContract.ProductEntry.COLUMN_IMAGE, product.getmImage());
-        contentValues.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, 1);
+        contentValues.put(ManageProductContract.ProductEntry.COLUMN_IDCATEGORY, product.getmCategory());
 
         sqLiteDatabase.insert(ManageProductContract.ProductEntry.TABLE_NAME, null, contentValues);
         DatabaseHelper.getInstance().closeDatabase();
     }
 
     public void deleteProduct(Product product) {
-
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
+        String where = BaseColumns._ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(product.getmId())};
+        sqLiteDatabase.delete(ManageProductContract.ProductEntry.TABLE_NAME, where, whereArgs);
+        DatabaseHelper.getInstance().closeDatabase();
     }
 
     public void updateProduct(Product product) {
@@ -100,5 +115,15 @@ public class DatabaseManager {
 
         sqLiteDatabase.update(ManageProductContract.ProductEntry.TABLE_NAME, contentValues, where, whereArgs);
         DatabaseHelper.getInstance().closeDatabase();
+    }
+
+    /**
+     * Category table methods
+     */
+    public Cursor getAllCategory() {
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
+        Cursor cursor = sqLiteDatabase.query(ManageProductContract.CategoryEntry.TABLE_NAME, ManageProductContract.CategoryEntry.ALL_COLUMNS, null, null, null, null, null);
+        //DatabaseHelper.getInstance().closeDatabase();
+        return cursor;
     }
 }

@@ -1,10 +1,8 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
-import com.barranquero.manageproductsrecycler.ProductRepository;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
-import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 /**
@@ -20,7 +18,7 @@ public class ManagePresenterImpl implements ManagePresenter{
     @Override
     public void saveProduct(Product product) {
         DatabaseManager myRepository = DatabaseManager.getInstance();
-        if (myRepository.getProducts().contains(product))
+        if (myRepository.getAllProducts().contains(product))
             myView.showMessage(Integer.toString(R.string.already_exists));
         else
             myRepository.addProduct(product);
