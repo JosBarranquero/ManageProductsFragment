@@ -2,11 +2,13 @@ package com.barranquero.manageproductsrecycler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.barranquero.manageproductsrecycler.database.ManageProductContract;
 import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
+import com.barranquero.manageproductsrecycler.model.Category;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.CategoryPresenterImpl;
 import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
@@ -34,16 +37,24 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
-    private ManageProductListener mCallback;
+    private ManageProductListener manageProductListener;
     private ManagePresenterImpl managePresenter;
     private CategoryPresenter categoryPresenter;
     private Spinner spCategory;
-    private SimpleCursorAdapter cursorAdapter;
+    private SimpleCursorAdapter adapterCategory;
     private View parent;
 
     @Override
     public void showMessage(String message) {
         Snackbar.make(parent, getString(Integer.parseInt(message)), Snackbar.LENGTH_SHORT);
+    }
+
+    @Override
+    public void setCursorCategory(Cursor cursor) {
+        //adapterCategory.swapCursor(cursor);
+
+        // Change closes the previous cursor and opens the new one
+        adapterCategory.changeCursor(cursor);
     }
 
     public interface ManageProductListener {
@@ -76,7 +87,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mCallback = (ManageProductListener)activity;
+            manageProductListener = (ManageProductListener)activity;
         } catch (ClassCastException ex) {
             throw new ClassCastException(ex.getMessage() + " activity must implement ManageProductListener interface");
         }
@@ -85,7 +96,8 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallback = null;
+        manageProductListener = null;
+        adapterCategory = null;
     }
 
     @Nullable
@@ -134,7 +146,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
                 @Override
                 public void onClick(View view) {
                     updateProduct(product);
-                    mCallback.showListProduct();
+                    manageProductListener.showListProduct();
                 }
             });
         } else {
@@ -142,7 +154,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
                 @Override
                 public void onClick(View view) {
                     saveProduct();
-                    mCallback.showListProduct();
+                    manageProductListener.showListProduct();
                 }
             });
         }
@@ -154,16 +166,17 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         super.onViewCreated(view, savedInstanceState);
         String[] from = {ManageProductContract.CategoryEntry.COLUMN_NAME};
         int[] to = {android.R.id.text1};
-        cursorAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null, from, to, 0);
-        cursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCategory.setAdapter(cursorAdapter);
+        adapterCategory = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, null, from, to, 0);
+        adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategory.setAdapter(adapterCategory);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         // Calls the presenter to load the data
-        categoryPresenter.getAllCategory(cursorAdapter);
+        categoryPresenter.getAllCategory(adapterCategory);
+
     }
 
     private void saveProduct() {
@@ -174,8 +187,10 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
         int image = R.drawable.caja_medicamentos;
+        Cursor cursor = ((SimpleCursorAdapter)spCategory.getAdapter()).getCursor();
+        cursor.moveToPosition(spCategory.getSelectedItemPosition());
 
-        Product product = new Product(name, description, brand, dosage, price, stock, image, 1);
+        Product product = new Product(name, description, brand, dosage, price, stock, image, cursor.getInt(0));
 
         managePresenter.saveProduct(product);
     }
@@ -188,8 +203,10 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
         int image = R.drawable.caja_medicamentos;
+        Cursor cursor = ((SimpleCursorAdapter)spCategory.getAdapter()).getCursor();
+        cursor.moveToPosition(spCategory.getSelectedItemPosition());
 
-        Product product1 = new Product(name, description, brand, dosage, price, stock, image, 1);
+        Product product1 = new Product(name, description, brand, dosage, price, stock, image, cursor.getInt(0));
 
         managePresenter.updateProduct(product, product1);
     }

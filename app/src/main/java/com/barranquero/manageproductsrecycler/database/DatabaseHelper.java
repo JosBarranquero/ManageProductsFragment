@@ -103,6 +103,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    @Override
+    public synchronized void close() {
+        super.close();
+    }
+
     public SQLiteDatabase open() {
         return getWritableDatabase();
     }

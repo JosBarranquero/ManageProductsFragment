@@ -81,11 +81,13 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     public void addProduct(Product product) {
         add(product);
         sort(Product.NAME_COMPARATOR);
+        notifyDataSetChanged();
     }
 
     public void addProduct(Product product, Product old) {
         remove(old);
         add(product);
+        notifyDataSetChanged();
     }
 
     class ProductHolder {
