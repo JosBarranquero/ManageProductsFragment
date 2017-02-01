@@ -24,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.ListProductListener {
     private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
+    private ListPharmacyFragment listPharmacyFragment;
     private long mBackPressed = 0;
     private static final long MAX_TIME = 2500;
 
@@ -77,7 +78,8 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
                         //onListProductListener();
                         break;
                     case R.id.action_chemist:
-                        //onListChemistListener();
+                        listPharmacyFragment = new ListPharmacyFragment();
+                        getSupportFragmentManager().beginTransaction().add(R.id.framehome, listPharmacyFragment).commit();
                         break;
                     /*case R.id.action_home:
                         break;
@@ -152,7 +154,7 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         manageProductFragment = ManageProductFragment.newInstance(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.framehome, manageProductFragment);
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
         ft.commit();
     }
 

@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.provider.BaseColumns;
+import android.util.Log;
 
-import com.barranquero.manageproductsrecycler.ManageProductsApplication;
+import com.barranquero.manageproductsrecycler.model.Pharmacy;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 import java.util.ArrayList;
@@ -58,7 +60,18 @@ public class DatabaseManager {
                 products.add(product);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
+        // Show in Log the product and category tables union
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(ManageProductContract.ProductEntry.PRODUCT_JOIN_CATEGORY);
+        cursor = queryBuilder.query(sqLiteDatabase, ManageProductContract.ProductEntry.COLUMNS_PRODUCT_JOIN_CATEGORY, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d("PeHachePéMiAdmín", cursor.getString(0) + ", " + cursor.getString(1) + " -> " + cursor.getString(2));
+            } while (cursor.moveToNext());
+        }
         cursor.close();
 
         DatabaseHelper.getInstance().closeDatabase();
@@ -74,6 +87,10 @@ public class DatabaseManager {
         return null;
     }
 
+    /**
+     * Method which adds a product in the database
+     * @param product The product to be added
+     */
     public void addProduct(Product product) {
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
         ContentValues contentValues = new ContentValues();
@@ -124,6 +141,24 @@ public class DatabaseManager {
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
         Cursor cursor = sqLiteDatabase.query(ManageProductContract.CategoryEntry.TABLE_NAME, ManageProductContract.CategoryEntry.ALL_COLUMNS, null, null, null, null, null);
         //DatabaseHelper.getInstance().closeDatabase();
+        return cursor;
+    }
+
+    public void addPharmacy(Pharmacy pharmacy) {
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ManageProductContract.PharmacyEntry.COLUMN_CIF, pharmacy.getCif());
+        contentValues.put(ManageProductContract.PharmacyEntry.COLUMN_ADDRESS, pharmacy.getAddress());
+        contentValues.put(ManageProductContract.PharmacyEntry.COLUMN_EMAIL, pharmacy.getEmail());
+        contentValues.put(ManageProductContract.PharmacyEntry.COLUMN_PHONE, pharmacy.getPhone());
+
+        sqLiteDatabase.insert(ManageProductContract.PharmacyEntry.TABLE_NAME, null, contentValues);
+        DatabaseHelper.getInstance().closeDatabase();
+    }
+
+    public Cursor getAllPharmacy() {
+        SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
+        Cursor cursor = sqLiteDatabase.query(ManageProductContract.PharmacyEntry.TABLE_NAME, ManageProductContract.PharmacyEntry.ALL_COLUMNS, null, null, null, null, null);
         return cursor;
     }
 }

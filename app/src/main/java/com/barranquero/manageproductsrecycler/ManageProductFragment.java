@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.barranquero.manageproductsrecycler.database.ManageProductContract;
 import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
-import com.barranquero.manageproductsrecycler.model.Category;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.CategoryPresenterImpl;
 import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
@@ -106,7 +104,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_manage_product, container, false);
 
-        parent = rootView.findViewById(R.id.activity_add_product);
+        parent = rootView.findViewById(R.id.fragment_add_product);
 
         mEdtName = (EditText)rootView.findViewById(R.id.edtName);
         mEdtDesc = (EditText)rootView. findViewById(R.id.edtDesc);

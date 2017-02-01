@@ -28,17 +28,17 @@ package com.barranquero.manageproductsrecycler.model;
  * * g o a t s e x * g o a t s e x * g o a t s e x *
  */
 
-public class Chemist {
+public class Pharmacy {
     private int id;
     private String cif;
     private String address;
     private String phone;
     private String email;
 
-    public Chemist() {
+    public Pharmacy() {
     }
 
-    public Chemist(String address, String cif, String email, int id, String phone) {
+    public Pharmacy(String address, String cif, String email, int id, String phone) {
         this.address = address;
         this.cif = cif;
         this.email = email;

@@ -55,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(ManageProductContract.CategoryEntry.SQL_INSERT_DEFAULT);
             db.execSQL(ManageProductContract.ProductEntry.SQL_CREATE_ENTRIES);
             db.execSQL(ManageProductContract.PharmacyEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(ManageProductContract.PharmacyEntry.SQL_INSERT_DEFAULT);
             db.execSQL(ManageProductContract.InvoiceStatusEntry.SQL_CREATE_ENTRIES);
             db.execSQL(ManageProductContract.InvoiceEntry.SQL_CREATE_ENTRIES);
             db.execSQL(ManageProductContract.InvoiceLineEntry.SQL_CREATE_ENTRIES);

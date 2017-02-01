@@ -32,6 +32,11 @@ public final class ManageProductContract {
         public static final String COLUMN_STOCK = "stock";
         public static final String COLUMN_IMAGE = "image";
         public static final String COLUMN_IDCATEGORY = "id_category";
+        public static final String PRODUCT_JOIN_CATEGORY = String.format("%s INNER JOIN %s ON %s=%s.%s",
+                TABLE_NAME, CategoryEntry.TABLE_NAME, COLUMN_IDCATEGORY, CategoryEntry.TABLE_NAME, BaseColumns._ID);
+        public static final String[] COLUMNS_PRODUCT_JOIN_CATEGORY = {
+                TABLE_NAME+"."+COLUMN_NAME, COLUMN_DESCRIPTION, CategoryEntry.TABLE_NAME+"."+CategoryEntry.COLUMN_NAME
+        };
         public static final String[] ALL_COLUMNS = new String[]{BaseColumns._ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_BRAND, COLUMN_DOSAGE, COLUMN_PRICE, COLUMN_STOCK, COLUMN_IMAGE, COLUMN_IDCATEGORY};
         public static final String REFERENCE_ID_CATEGORY = String.format("REFERENCES %s (%s) ON UPDATE CASCADE ON DELETE RESTRICT", CategoryEntry.TABLE_NAME, BaseColumns._ID);
         public static final String SQL_CREATE_ENTRIES = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -73,7 +78,9 @@ public final class ManageProductContract {
                 COLUMN_PHONE,
                 COLUMN_EMAIL
         );
+        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'isjd23', 'Calle falsa', '1390241', 'micorreo@pacog.es')", TABLE_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+        public static final String[] ALL_COLUMNS = {BaseColumns._ID, COLUMN_CIF, COLUMN_ADDRESS, COLUMN_PHONE, COLUMN_EMAIL};
     }
 
     public static class InvoiceStatusEntry implements BaseColumns {

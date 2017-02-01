@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="?android:attr/activatedBackgroundIndicator">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvCif"
+        android:text="@string/txvName"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvAddress"
+        android:text="@string/txvStock"
+        android:layout_below="@id/txvCif"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txvPhone"
+        android:text="@string/txvPrice"
+        android:layout_toEndOf="@id/txvAddress"
+        android:layout_toRightOf="@id/txvAddress"
+        android:layout_below="@id/txvCif"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txvPhone"
+        android:layout_toEndOf="@+id/txvAddress"
+        android:layout_marginStart="17dp"
+        android:id="@+id/txvEmail"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+</RelativeLayout>
