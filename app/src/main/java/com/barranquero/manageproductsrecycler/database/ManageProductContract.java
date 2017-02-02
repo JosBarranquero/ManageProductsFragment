@@ -58,6 +58,7 @@ public final class ManageProductContract {
                 COLUMN_IMAGE,
                 COLUMN_IDCATEGORY,
                 REFERENCE_ID_CATEGORY);
+        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'Coca', 'La del Rivera', 'Nesquick', '250g', 7.50, 1, 54646345, 3), (2, 'Mi medicación', 'La de Paco', 'Apache2 roto', '250mg', 17.50, 13, 54646345, 1)", TABLE_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
     }
 
@@ -78,7 +79,7 @@ public final class ManageProductContract {
                 COLUMN_PHONE,
                 COLUMN_EMAIL
         );
-        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'isjd23', 'Calle falsa', '1390241', 'micorreo@pacog.es')", TABLE_NAME);
+        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, '2313FF', 'Calle falsa', '95223213', 'micorreo@pacog.es')", TABLE_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
         public static final String[] ALL_COLUMNS = {BaseColumns._ID, COLUMN_CIF, COLUMN_ADDRESS, COLUMN_PHONE, COLUMN_EMAIL};
     }
