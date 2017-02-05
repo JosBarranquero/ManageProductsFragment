@@ -21,9 +21,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by usuario on 1/12/16
  */
-public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.ListProductListener {
+public class HomeActivity extends AppCompatActivity implements ManageProductFragment.ManageProductListener, MultiListProductFragment.ListProductListener, ListPharmacyFragment.ListPharmacyListener {
     private MultiListProductFragment listProductFragment;
     private ManageProductFragment manageProductFragment;
+    private ManagePharmacyFragment managePharmacyFragment;
     private ListPharmacyFragment listPharmacyFragment;
     private long mBackPressed = 0;
     private static final long MAX_TIME = 2500;
@@ -76,10 +77,11 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
                 switch (item.getItemId()) {
                     case R.id.action_products:
                         //onListProductListener();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framehome, listProductFragment).commit();
                         break;
                     case R.id.action_chemist:
                         listPharmacyFragment = new ListPharmacyFragment();
-                        getSupportFragmentManager().beginTransaction().add(R.id.framehome, listPharmacyFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framehome, listPharmacyFragment).commit();
                         break;
                     /*case R.id.action_home:
                         break;
@@ -164,5 +166,11 @@ public class HomeActivity extends AppCompatActivity implements ManageProductFrag
         ft.replace(R.id.framehome, listProductFragment);
         //ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void showManagePharmacy(Bundle bundle) {
+        managePharmacyFragment = ManagePharmacyFragment.newInstance(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.framehome, managePharmacyFragment).commit();
     }
 }

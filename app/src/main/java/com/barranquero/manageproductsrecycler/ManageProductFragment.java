@@ -19,10 +19,10 @@ import android.widget.Spinner;
 import com.barranquero.manageproductsrecycler.database.ManageProductContract;
 import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
-import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
+import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.CategoryPresenterImpl;
-import com.barranquero.manageproductsrecycler.presenter.ManagePresenterImpl;
+import com.barranquero.manageproductsrecycler.presenter.ManageProductPresenterImpl;
 
 import java.util.Locale;
 
@@ -31,12 +31,12 @@ import java.util.Locale;
  * @author José Antonio Barranquero Fernández
  * @version 1.0
  */
-public class ManageProductFragment extends Fragment implements ManagePresenter.View, CategoryPresenter.View {
+public class ManageProductFragment extends Fragment implements ManageProductPresenter.View, CategoryPresenter.View {
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
     private ManageProductListener manageProductListener;
-    private ManagePresenterImpl managePresenter;
+    private ManageProductPresenterImpl managePresenter;
     private CategoryPresenter categoryPresenter;
     private Spinner spCategory;
     private SimpleCursorAdapter adapterCategory;
@@ -69,7 +69,7 @@ public class ManageProductFragment extends Fragment implements ManagePresenter.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        managePresenter = new ManagePresenterImpl(this);
+        managePresenter = new ManageProductPresenterImpl(this);
         categoryPresenter = new CategoryPresenterImpl(this);
 
     }

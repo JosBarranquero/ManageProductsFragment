@@ -1,34 +1,13 @@
 package com.barranquero.manageproductsrecycler.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
- * * g o a t s e x * g o a t s e x * g o a t s e x *
- * g                                               g
- * o /     \             \            /    \       o
- * a|       |             \          |      |      a
- * t|       `.             |         |       :     t
- * s`        |             |        \|       |     s
- * e \       | /       /  \\\   --__ \\       :    e
- * x  \      \/   _--~~          ~--__| \     |    x
- * *   \      \_-~                    ~-_\    |    *
- * g    \_     \        _.--------.______\|   |    g
- * o      \     \______// _ ___ _ (_(__>  \   |    o
- * a       \   .  C ___)  ______ (_(____>  |  /    a
- * t       /\ |   C ____)/      \ (_____>  |_/     t
- * s      / /\|   C_____)       |  (___>   /  \    s
- * e     |   (   _C_____)\______/  // _/ /     \   e
- * x     |    \  |__   \\_________// (__/       |  x
- * *    | \    \____)   `----   --'             |  *
- * g    |  \_          ___\       /_          _/ | g
- * o   |              /    |     |  \            | o
- * a   |             |    /       \  \           | a
- * t   |          / /    |         |  \           |t
- * s   |         / /      \__/\___/    |          |s
- * e  |           /        |    |       |         |e
- * x  |          |         |    |       |         |x
- * * g o a t s e x * g o a t s e x * g o a t s e x *
+ * @author José Antonio Barranquero Fernández
  */
 
-public class Pharmacy {
+public class Pharmacy implements Parcelable {
     private int id;
     private String cif;
     private String address;
@@ -38,13 +17,32 @@ public class Pharmacy {
     public Pharmacy() {
     }
 
-    public Pharmacy(String address, String cif, String email, int id, String phone) {
+    public Pharmacy(String address, String cif, String email, String phone) {
         this.address = address;
         this.cif = cif;
         this.email = email;
-        this.id = id;
         this.phone = phone;
     }
+
+    protected Pharmacy(Parcel in) {
+        id = in.readInt();
+        cif = in.readString();
+        address = in.readString();
+        phone = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<Pharmacy> CREATOR = new Creator<Pharmacy>() {
+        @Override
+        public Pharmacy createFromParcel(Parcel in) {
+            return new Pharmacy(in);
+        }
+
+        @Override
+        public Pharmacy[] newArray(int size) {
+            return new Pharmacy[size];
+        }
+    };
 
     public String getAddress() {
         return address;
@@ -84,5 +82,19 @@ public class Pharmacy {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(cif);
+        dest.writeString(address);
+        dest.writeString(phone);
+        dest.writeString(email);
     }
 }

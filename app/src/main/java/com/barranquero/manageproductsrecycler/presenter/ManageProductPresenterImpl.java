@@ -2,16 +2,16 @@ package com.barranquero.manageproductsrecycler.presenter;
 
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.database.DatabaseManager;
-import com.barranquero.manageproductsrecycler.interfaces.ManagePresenter;
+import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 /**
  * Created by usuario on 12/12/16.
  */
-public class ManagePresenterImpl implements ManagePresenter{
-    ManagePresenter.View myView;
+public class ManageProductPresenterImpl implements ManageProductPresenter {
+    ManageProductPresenter.View myView;
 
-    public ManagePresenterImpl(ManagePresenter.View view) {
+    public ManageProductPresenterImpl(ManageProductPresenter.View view) {
         this.myView = view;
     }
 
