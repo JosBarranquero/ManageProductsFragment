@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.barranquero.manageproductsrecycler.adapter.PharmacyAdapter;
-import com.barranquero.manageproductsrecycler.database.ManageProductContract;
 import com.barranquero.manageproductsrecycler.interfaces.PharmacyPresenter;
 import com.barranquero.manageproductsrecycler.presenter.PharmacyPresenterImpl;
 

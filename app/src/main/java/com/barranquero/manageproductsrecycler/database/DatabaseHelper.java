@@ -1,6 +1,5 @@
 package com.barranquero.manageproductsrecycler.database;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.barranquero.manageproductsrecycler.ManageProductsApplication;
+import com.barranquero.manageproductsrecycler.provider.ManageProductContract;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,15 +51,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.beginTransaction();
         try {
-            db.execSQL(ManageProductContract.CategoryEntry.SQL_CREATE_ENTRIES);
-            db.execSQL(ManageProductContract.CategoryEntry.SQL_INSERT_DEFAULT);
-            db.execSQL(ManageProductContract.ProductEntry.SQL_CREATE_ENTRIES);
-            db.execSQL(ManageProductContract.ProductEntry.SQL_INSERT_DEFAULT);
-            db.execSQL(ManageProductContract.PharmacyEntry.SQL_CREATE_ENTRIES);
-            db.execSQL(ManageProductContract.PharmacyEntry.SQL_INSERT_DEFAULT);
-            db.execSQL(ManageProductContract.InvoiceStatusEntry.SQL_CREATE_ENTRIES);
-            db.execSQL(ManageProductContract.InvoiceEntry.SQL_CREATE_ENTRIES);
-            db.execSQL(ManageProductContract.InvoiceLineEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.CategoryEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.CategoryEntry.SQL_INSERT_DEFAULT);
+            db.execSQL(DatabaseContract.ProductEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.ProductEntry.SQL_INSERT_DEFAULT);
+            db.execSQL(DatabaseContract.PharmacyEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.PharmacyEntry.SQL_INSERT_DEFAULT);
+            db.execSQL(DatabaseContract.InvoiceStatusEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceEntry.SQL_CREATE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceLineEntry.SQL_CREATE_ENTRIES);
             db.setTransactionSuccessful();
         } catch (SQLiteException e) {
             Log.e("Manage", "Error:" + e.getMessage());
@@ -73,12 +73,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.beginTransaction();
         try {
-            db.execSQL(ManageProductContract.InvoiceLineEntry.SQL_DELETE_ENTRIES);
-            db.execSQL(ManageProductContract.InvoiceEntry.SQL_DELETE_ENTRIES);
-            db.execSQL(ManageProductContract.InvoiceStatusEntry.SQL_DELETE_ENTRIES);
-            db.execSQL(ManageProductContract.PharmacyEntry.SQL_DELETE_ENTRIES);
-            db.execSQL(ManageProductContract.ProductEntry.SQL_DELETE_ENTRIES);
-            db.execSQL(ManageProductContract.CategoryEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceLineEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.InvoiceStatusEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.PharmacyEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.ProductEntry.SQL_DELETE_ENTRIES);
+            db.execSQL(DatabaseContract.CategoryEntry.SQL_DELETE_ENTRIES);
             onCreate(db);
             db.setTransactionSuccessful();
         } catch (SQLiteException e) {

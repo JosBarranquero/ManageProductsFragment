@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
-import com.barranquero.manageproductsrecycler.database.ManageProductContract;
+import com.barranquero.manageproductsrecycler.provider.ManageProductContract;
 import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
 import com.barranquero.manageproductsrecycler.interfaces.IProduct;
 import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
