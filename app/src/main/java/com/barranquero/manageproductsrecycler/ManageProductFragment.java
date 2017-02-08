@@ -55,6 +55,11 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
         adapterCategory.changeCursor(cursor);
     }
 
+    @Override
+    public Cursor getCursor() {
+        return adapterCategory.getCursor();
+    }
+
     public interface ManageProductListener {
         void showListProduct();
     }

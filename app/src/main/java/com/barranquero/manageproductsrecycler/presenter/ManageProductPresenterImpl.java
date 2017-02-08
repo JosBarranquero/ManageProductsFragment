@@ -1,7 +1,5 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
-import com.barranquero.manageproductsrecycler.R;
-import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -17,17 +15,17 @@ public class ManageProductPresenterImpl implements ManageProductPresenter {
 
     @Override
     public void saveProduct(Product product) {
-        DatabaseManager myRepository = DatabaseManager.getInstance();
+        /*DatabaseManager myRepository = DatabaseManager.getInstance();
         if (myRepository.getAllProducts().contains(product))
             myView.showMessage(Integer.toString(R.string.already_exists));
         else
-            myRepository.addProduct(product);
+            myRepository.addProduct(product);*/
     }
 
     @Override
     public void updateProduct(Product oldOne, Product newOne) {
-        DatabaseManager.getInstance().deleteProduct(oldOne);
-        DatabaseManager.getInstance().addProduct(newOne);
+        /*DatabaseManager.getInstance().deleteProduct(oldOne);
+        DatabaseManager.getInstance().addProduct(newOne);*/
     }
 
     @Override

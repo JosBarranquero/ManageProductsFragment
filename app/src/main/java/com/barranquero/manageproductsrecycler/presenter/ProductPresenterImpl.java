@@ -1,19 +1,27 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
+import android.app.Activity;
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
-import com.barranquero.manageproductsrecycler.database.DatabaseManager;
+//import com.barranquero.manageproductsrecycler.database.DatabaseManager;
+import com.barranquero.manageproductsrecycler.cursor.PharmacyCursorLoader;
 import com.barranquero.manageproductsrecycler.dialog.ConfirmDialog;
 import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 
 import java.util.List;
 
+import static com.barranquero.manageproductsrecycler.provider.ManageProductProvider.PRODUCT;
+
 /**
  * Class that implements the ProductPresenter interface
  */
-public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnDeleteProductListener {
+public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnDeleteProductListener, LoaderManager.LoaderCallbacks<Cursor> {
     private ProductPresenter.View view;
     //private ProductRepository repository;
 
@@ -32,7 +40,7 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
         }
     }*/
     public void getAllProducts() {
-        new AsyncTask<Void, Void, List<Product>>() {
+        /*new AsyncTask<Void, Void, List<Product>>() {
             ProgressDialog progressDialog = new ProgressDialog(view.getContext());
 
             @Override
@@ -49,7 +57,7 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return DatabaseManager.getInstance().getAllProducts();
+                return null; //DatabaseManager.getInstance().getAllProducts();
             }
 
             @Override
@@ -63,12 +71,13 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
             protected void onCancelled() {
                 super.onCancelled();
             }
-        }.execute();
+        }.execute();*/
+        ((Activity)view.getContext()).getLoaderManager().initLoader(PRODUCT, null, this);
     }
 
     @Override
     public Product getProduct(int id) {
-        return DatabaseManager.getInstance().getProduct(id);
+        return null; //DatabaseManager.getInstance().getProduct(id);
     }
 
     @Override
@@ -91,9 +100,30 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
 
     @Override
     public void addProduct(Product product) {
-        DatabaseManager.getInstance().addProduct(product);
+        //DatabaseManager.getInstance().addProduct(product);
         //view.showProducts(DatabaseManager.getInstance().getAllProducts());
         getAllProducts();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Loader<Cursor> loader = null;
+        switch (id) {
+            case PRODUCT:
+                loader = new PharmacyCursorLoader(view.getContext());
+                break;
+        }
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        view.setCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        view.setCursor(null);
     }
 
     /* Example implementation to delete product once the SnackBar times out

@@ -2,7 +2,6 @@ package com.barranquero.manageproductsrecycler.provider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 
 import com.barranquero.manageproductsrecycler.database.DatabaseContract;
 
@@ -57,7 +56,7 @@ public final class ManageProductContract {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(AUTHORITY_URI, CONTENT_PATH);
 
         public static final String COLUMN_NAME = "name";
-        public static final String[] ALL_COLUMNS = new String[] {BaseColumns._ID, DatabaseContract.InvoiceStatusEntry.COLUMN_NAME};
+        public static final String[] ALL_COLUMNS = new String[]{BaseColumns._ID, DatabaseContract.InvoiceStatusEntry.COLUMN_NAME};
     }
 
     public static class InvoiceEntry implements BaseColumns {

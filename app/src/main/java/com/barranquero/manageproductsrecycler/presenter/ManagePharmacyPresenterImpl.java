@@ -1,7 +1,5 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
-import com.barranquero.manageproductsrecycler.R;
-import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.interfaces.ManagePharmacyPresenter;
 import com.barranquero.manageproductsrecycler.model.Pharmacy;
 
@@ -20,17 +18,17 @@ public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
 
     @Override
     public void savePharmacy(Pharmacy pharmacy) {
-        DatabaseManager myRepository = DatabaseManager.getInstance();
+        /*DatabaseManager myRepository = DatabaseManager.getInstance();
         if (myRepository.getAllProducts().contains(pharmacy))
             myView.showMessage(Integer.toString(R.string.already_exists));
         else
-            myRepository.addPharmacy(pharmacy);
+            myRepository.addPharmacy(pharmacy);*/
     }
 
     @Override
     public void updatePharmacy(Pharmacy oldOne, Pharmacy newOne) {
         //TODO DatabaseManager.getInstance().deletePharmacy(oldOne);
-        DatabaseManager.getInstance().addPharmacy(newOne);
+        //DatabaseManager.getInstance().addPharmacy(newOne);
     }
 
     @Override

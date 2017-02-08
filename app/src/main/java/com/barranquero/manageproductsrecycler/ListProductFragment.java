@@ -2,6 +2,7 @@ package com.barranquero.manageproductsrecycler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -50,7 +51,7 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new ProductAdapter(getContext());
+        mAdapter = new ProductAdapter(getContext(), null, 1);
         mPresenter = new ProductPresenterImpl(this);
 
         setRetainInstance(true);
@@ -176,14 +177,14 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
                 mAdapter.notifyDataSetChanged();
                 break;*/
             case R.id.action_sort_alphabetically:
-                mAdapter.sortAlphabetically();
+                //mAdapter.sortAlphabetically();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void showProducts(List<Product> products) {
-        mAdapter.updateProduct(products);
+        //mAdapter.updateProduct(products);
     }
 
     private void hideList(boolean hide) {
@@ -219,5 +220,10 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
                 }
             }
         }).show();*/
+    }
+
+    @Override
+    public void setCursor(Cursor cursor) {
+
     }
 }

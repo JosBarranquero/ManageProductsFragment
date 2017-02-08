@@ -9,6 +9,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".ManageProductsApplication">
+
+        <provider
+            android:authorities="com.barranquero.manageproductsrecycler"
+            android:name=".provider.ManageProductProvider"/>
+
         <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustPan">
 
         </activity>

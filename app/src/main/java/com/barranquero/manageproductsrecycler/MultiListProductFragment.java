@@ -3,6 +3,7 @@ package com.barranquero.manageproductsrecycler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -51,7 +52,7 @@ public class MultiListProductFragment extends Fragment implements IProduct, Prod
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new ProductAdapter(getContext());
+        mAdapter = new ProductAdapter(getContext(), null, 1);
         mPresenter = new ProductPresenterImpl(this);
 
         setRetainInstance(true);
@@ -131,7 +132,7 @@ public class MultiListProductFragment extends Fragment implements IProduct, Prod
                 mAdapter.notifyDataSetChanged();
                 break;*/
             case R.id.action_sort_alphabetically:
-                mAdapter.sortAlphabetically();
+                //mAdapter.sortAlphabetically();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -163,8 +164,14 @@ public class MultiListProductFragment extends Fragment implements IProduct, Prod
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mPresenter.getAllProducts();
+    }
+
     public void showProducts(List<Product> products) {
-        mAdapter.updateProduct(products);
+        //mAdapter.updateProduct(products);
     }
 
     private void hideList(boolean hide) {
@@ -200,5 +207,10 @@ public class MultiListProductFragment extends Fragment implements IProduct, Prod
                 }
             }
         }).show();*/
+    }
+
+    @Override
+    public void setCursor(Cursor cursor) {
+        mAdapter.changeCursor(cursor);
     }
 }

@@ -4,8 +4,15 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.barranquero.manageproductsrecycler.database.DatabaseContract;
+import com.barranquero.manageproductsrecycler.database.DatabaseHelper;
 
 /**
  * Created by usuario on 6/02/17
@@ -25,6 +32,8 @@ public class ManageProductProvider extends ContentProvider {
     public static final int INVOICELINE_ID = 10;
     public static final int INVOICE = 11;
     public static final int INVOICE_ID = 11;
+
+    private SQLiteDatabase sqLiteDatabase;
 
     public static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
@@ -49,13 +58,34 @@ public class ManageProductProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
+        sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
+        return true;
     }
 
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+        switch (uriMatcher.match(uri)) {
+            case CATEGORY:
+                sqLiteQueryBuilder.setTables(DatabaseContract.CategoryEntry.TABLE_NAME);
+                if (TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = DatabaseContract.CategoryEntry.DEFAULT_SORT;
+                }
+                break;
+            case CATEGORY_ID:
+                break;
+            case PRODUCT:
+                break;
+            case PRODUCT_ID:
+                break;
+            case UriMatcher.NO_MATCH:
+                throw new IllegalArgumentException("Invalid URI");
+        }
+        String sqlQuery = sqLiteQueryBuilder.buildQuery(projection, selection, null, null, sortOrder, null);
+        Log.i("MiEseCuEle", sqlQuery);
+        Cursor cursor = sqLiteQueryBuilder.query(sqLiteDatabase, projection, selection, selectionArgs, null, null, sortOrder);
+        return cursor;
     }
 
     @Nullable

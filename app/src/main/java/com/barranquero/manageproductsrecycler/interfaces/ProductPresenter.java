@@ -1,6 +1,7 @@
 package com.barranquero.manageproductsrecycler.interfaces;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.barranquero.manageproductsrecycler.model.Product;
 
@@ -27,5 +28,7 @@ public interface ProductPresenter {
         void showMessageDelete(Product product);
 
         Context getContext();
+
+        void setCursor(Cursor cursor);
     }
 }

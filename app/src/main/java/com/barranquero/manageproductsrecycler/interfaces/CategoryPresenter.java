@@ -15,5 +15,7 @@ public interface CategoryPresenter {
     interface View {
         Context getContext();
         void setCursorCategory(Cursor cursor);
+
+        Cursor getCursor();
     }
 }

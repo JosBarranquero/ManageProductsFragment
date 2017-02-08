@@ -6,10 +6,13 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.content.CursorLoader;
 import android.widget.CursorAdapter;
 
 import com.barranquero.manageproductsrecycler.cursor.CategoryCursorLoader;
+import com.barranquero.manageproductsrecycler.database.DatabaseContract;
 import com.barranquero.manageproductsrecycler.interfaces.CategoryPresenter;
+import com.barranquero.manageproductsrecycler.provider.ManageProductContract;
 
 /**
  * Created by usuario on 26/01/17
@@ -36,10 +39,10 @@ public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Loader<Cursor> loader = null;
+        Loader loader = null;
         switch (id) {
             case CATEGORY:
-                loader = new CategoryCursorLoader(context);
+                loader = new CursorLoader(context, ManageProductContract.CategoryEntry.CONTENT_URI, ManageProductContract.CategoryEntry.ALL_COLUMNS, null, null, DatabaseContract.CategoryEntry.DEFAULT_SORT);
                 break;
         }
         return loader;
@@ -48,6 +51,7 @@ public class CategoryPresenterImpl implements CategoryPresenter, LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         view.setCursorCategory(cursor);
+        view.getCursor().setNotificationUri(context.getContentResolver(), ManageProductContract.CategoryEntry.CONTENT_URI);
     }
 
     @Override
