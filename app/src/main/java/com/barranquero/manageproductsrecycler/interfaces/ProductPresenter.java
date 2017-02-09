@@ -30,5 +30,7 @@ public interface ProductPresenter {
         Context getContext();
 
         void setCursor(Cursor cursor);
+
+        Cursor getCursor();
     }
 }

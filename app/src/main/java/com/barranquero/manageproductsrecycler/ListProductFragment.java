@@ -226,4 +226,9 @@ public class ListProductFragment extends Fragment implements IProduct, ProductPr
     public void setCursor(Cursor cursor) {
 
     }
+
+    @Override
+    public Cursor getCursor() {
+        return null;
+    }
 }

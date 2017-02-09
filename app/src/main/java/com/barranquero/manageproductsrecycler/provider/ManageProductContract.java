@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.barranquero.manageproductsrecycler.database.DatabaseContract;
+import com.barranquero.manageproductsrecycler.model.Product;
+
+import java.util.HashMap;
 
 import static com.barranquero.manageproductsrecycler.database.DatabaseContract.ProductEntry.COLUMN_BRAND;
 import static com.barranquero.manageproductsrecycler.database.DatabaseContract.ProductEntry.COLUMN_DESCRIPTION;
@@ -42,6 +45,15 @@ public final class ManageProductContract {
 
         public static final String COLUMN_NAME = "name";
         public static final String[] ALL_COLUMNS = new String[]{BaseColumns._ID, COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_BRAND, COLUMN_DOSAGE, COLUMN_PRICE, COLUMN_STOCK, COLUMN_IMAGE, COLUMN_IDCATEGORY};
+
+        public static final HashMap<String, String> sProductProjectionMapM;
+
+        static {
+            sProductProjectionMapM = new HashMap<>();
+            // First one would refer to the one declared on ManageProductContract, and the second one to that on DatabaseContract
+            sProductProjectionMapM.put(DatabaseContract.ProductEntry.COLUMN_NAME, DatabaseContract.ProductEntry.COLUMN_NAME);
+            sProductProjectionMapM.put(DatabaseContract.ProductEntry.COLUMN_IDCATEGORY, DatabaseContract.ProductEntry.COLUMN_IDCATEGORY);
+        }
     }
 
     public static class PharmacyEntry implements BaseColumns {

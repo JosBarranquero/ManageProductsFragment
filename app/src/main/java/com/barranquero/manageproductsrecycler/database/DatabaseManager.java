@@ -38,14 +38,14 @@ public class DatabaseManager {
      * Method which returns all products
      * @return List with all the products
      */
-    public List<Product> getAllProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        Product product;
+    public Cursor getAllProducts() {
+        /*ArrayList<Product> products = new ArrayList<>();
+        Product product;*/
         SQLiteDatabase sqLiteDatabase = DatabaseHelper.getInstance().openDatabase();
 
         Cursor cursor = sqLiteDatabase.query(DatabaseContract.ProductEntry.TABLE_NAME, ManageProductContract.ProductEntry.ALL_COLUMNS, null, null, null, null, null);
 
-        if (cursor.moveToFirst()) {
+        /*if (cursor.moveToFirst()) {
             do {
                 product = new Product();
                 product.setmId(cursor.getInt(0));
@@ -76,7 +76,8 @@ public class DatabaseManager {
         cursor.close();
 
         DatabaseHelper.getInstance().closeDatabase();
-        return products;
+        return products;*/
+        return cursor;
     }
 
     /**

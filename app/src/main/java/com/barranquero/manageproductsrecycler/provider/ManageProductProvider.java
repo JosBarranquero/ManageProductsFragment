@@ -1,16 +1,19 @@
 package com.barranquero.manageproductsrecycler.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.database.DatabaseContract;
 import com.barranquero.manageproductsrecycler.database.DatabaseHelper;
 
@@ -76,6 +79,11 @@ public class ManageProductProvider extends ContentProvider {
             case CATEGORY_ID:
                 break;
             case PRODUCT:
+                sqLiteQueryBuilder.setTables(DatabaseContract.ProductEntry.TABLE_NAME);
+                sqLiteQueryBuilder.setProjectionMap(ManageProductContract.ProductEntry.sProductProjectionMapM);
+                if (TextUtils.isEmpty(sortOrder)) {
+                    sortOrder = DatabaseContract.ProductEntry.DEFAULT_SORT;
+                }
                 break;
             case PRODUCT_ID:
                 break;
@@ -97,7 +105,25 @@ public class ManageProductProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        Uri newUri = null;
+        long regId = -1;
+        switch (uriMatcher.match(uri)) {
+            case CATEGORY:
+                regId = sqLiteDatabase.insert(DatabaseContract.CategoryEntry.TABLE_NAME, null, values);
+                newUri = ContentUris.withAppendedId(uri, regId);
+                break;
+            case PRODUCT:
+                regId = sqLiteDatabase.insert(DatabaseContract.ProductEntry.TABLE_NAME, null, values);
+                newUri = ContentUris.withAppendedId(uri, regId);
+                break;
+        }
+        if (regId != -1) {
+            // Notify the observers that an URI was modified
+            getContext().getContentResolver().notifyChange(newUri, null);
+        } else {
+            throw new SQLiteException(getContext().getResources().getString(R.string.error_insert));
+        }
+        return newUri;
     }
 
     @Override

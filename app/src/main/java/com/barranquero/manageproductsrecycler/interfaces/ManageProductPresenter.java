@@ -1,5 +1,7 @@
 package com.barranquero.manageproductsrecycler.interfaces;
 
+import android.content.Context;
+
 import com.barranquero.manageproductsrecycler.model.Product;
 
 /**
@@ -12,5 +14,7 @@ public interface ManageProductPresenter {
 
     interface View {
         void showMessage(String message);
+
+        Context getContext();
     }
 }

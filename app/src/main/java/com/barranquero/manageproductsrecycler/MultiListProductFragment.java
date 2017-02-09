@@ -211,6 +211,15 @@ public class MultiListProductFragment extends Fragment implements IProduct, Prod
 
     @Override
     public void setCursor(Cursor cursor) {
-        mAdapter.changeCursor(cursor);
+        try {
+            mAdapter.changeCursor(cursor);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    @Override
+    public Cursor getCursor() {
+        return mAdapter.getCursor();
     }
 }

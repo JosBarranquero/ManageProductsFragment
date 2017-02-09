@@ -60,6 +60,7 @@ public class DatabaseContract {
                 REFERENCE_ID_CATEGORY);
         public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'Coca', 'La del Rivera', 'Nesquick', '250g', 7.50, 1, 2130837590, 3), (2, 'Mi medicación', 'La de Paco', 'Apache2 roto', '250mg', 17.50, 13, 2130837590, 1)", TABLE_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
+        public static final String DEFAULT_SORT = COLUMN_NAME;
     }
 
     public static class PharmacyEntry implements BaseColumns {

@@ -2,21 +2,19 @@ package com.barranquero.manageproductsrecycler.presenter;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.app.ProgressDialog;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-//import com.barranquero.manageproductsrecycler.database.DatabaseManager;
-import com.barranquero.manageproductsrecycler.cursor.PharmacyCursorLoader;
+import com.barranquero.manageproductsrecycler.cursor.ProductCursorLoader;
 import com.barranquero.manageproductsrecycler.dialog.ConfirmDialog;
 import com.barranquero.manageproductsrecycler.interfaces.ProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
-
-import java.util.List;
+import com.barranquero.manageproductsrecycler.provider.ManageProductContract;
 
 import static com.barranquero.manageproductsrecycler.provider.ManageProductProvider.PRODUCT;
+
+//import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 
 /**
  * Class that implements the ProductPresenter interface
@@ -72,7 +70,7 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
                 super.onCancelled();
             }
         }.execute();*/
-        ((Activity)view.getContext()).getLoaderManager().initLoader(PRODUCT, null, this);
+        ((Activity) view.getContext()).getLoaderManager().initLoader(PRODUCT, null, this);
     }
 
     @Override
@@ -110,7 +108,7 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
         Loader<Cursor> loader = null;
         switch (id) {
             case PRODUCT:
-                loader = new PharmacyCursorLoader(view.getContext());
+                loader = new ProductCursorLoader(view.getContext());
                 break;
         }
         return loader;
@@ -119,6 +117,8 @@ public class ProductPresenterImpl implements ProductPresenter, ConfirmDialog.OnD
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         view.setCursor(data);
+        view.getCursor().setNotificationUri(view.getContext().getContentResolver(), ManageProductContract.CategoryEntry.CONTENT_URI);
+
     }
 
     @Override
