@@ -1,7 +1,10 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteException;
+import android.net.Uri;
+import android.util.Log;
 
 import com.barranquero.manageproductsrecycler.database.DatabaseContract;
 import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
@@ -38,6 +41,14 @@ public class ManageProductPresenterImpl implements ManageProductPresenter {
     public void updateProduct(Product oldOne, Product newOne) {
         /*DatabaseManager.getInstance().deleteProduct(oldOne);
         DatabaseManager.getInstance().addProduct(newOne);*/
+        Uri uri = null;
+        try {
+            uri = ContentUris.withAppendedId(ManageProductContract.PharmacyEntry.CONTENT_URI, oldOne.getmId());
+            ContentValues contentValues =getContentCategory(newOne);
+            myView.getContext().getContentResolver().update(uri, contentValues, null, null);
+        } catch (Exception e) {
+            Log.e("PHPMiAdmín", e.getLocalizedMessage());
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.barranquero.manageproductsrecycler.ManageProductsApplication;
 import com.barranquero.manageproductsrecycler.ProductRepository;
 import com.barranquero.manageproductsrecycler.R;
 import com.barranquero.manageproductsrecycler.model.Product;
+import com.barranquero.manageproductsrecycler.utils.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
-        holder.product_image.setImageResource(products.get(position).getmImage());
+        holder.product_image.setImageBitmap(ImageUtils.getBitmap(products.get(position).getmImage()));
         holder.txvName.setText(products.get(position).getmName());
         holder.txvStock.setText(products.get(position).getFormattedStock());
         holder.txvPrice.setText(products.get(position).getFormattedPrice());

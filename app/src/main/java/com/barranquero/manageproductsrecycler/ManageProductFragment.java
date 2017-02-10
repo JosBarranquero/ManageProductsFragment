@@ -3,7 +3,11 @@ package com.barranquero.manageproductsrecycler;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,7 +27,10 @@ import com.barranquero.manageproductsrecycler.interfaces.ManageProductPresenter;
 import com.barranquero.manageproductsrecycler.model.Product;
 import com.barranquero.manageproductsrecycler.presenter.CategoryPresenterImpl;
 import com.barranquero.manageproductsrecycler.presenter.ManageProductPresenterImpl;
+import com.barranquero.manageproductsrecycler.utils.ImageUtils;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Locale;
 
 /**
@@ -32,6 +39,7 @@ import java.util.Locale;
  * @version 1.0
  */
 public class ManageProductFragment extends Fragment implements ManageProductPresenter.View, CategoryPresenter.View {
+    private static final int REQ_CODE_PICK_IMAGE = 1;
     private EditText mEdtName, mEdtDesc, mEdtBrand, mEdtDosage, mEdtStock, mEdtPrice;
     private Button mBtnAddMed;
     private ImageButton mImgMedicine;
@@ -41,6 +49,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
     private Spinner spCategory;
     private SimpleCursorAdapter adapterCategory;
     private View parent;
+    private Bitmap bitmap;
 
     @Override
     public void showMessage(String message) {
@@ -118,14 +127,17 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
         mEdtStock = (EditText) rootView.findViewById(R.id.edtStock);
         mEdtPrice = (EditText) rootView.findViewById(R.id.edtPrice);
         mImgMedicine = (ImageButton) rootView.findViewById(R.id.imgMedicine);
+        mImgMedicine.setImageResource(R.drawable.caja_medicamentos);
         mImgMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                /*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(intent, 1);
-                }
+                }*/
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
             }
         });
         spCategory = (Spinner)rootView.findViewById(R.id.spCategory);
@@ -142,7 +154,10 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
             mEdtDosage.setText(product.getmDosage());
             mEdtStock.setText(Integer.toString(product.getmStock()));
             mEdtPrice.setText(String.format(Locale.US, Double.toString(product.getmPrice())));
-            mImgMedicine.setImageResource(product.getmImage());
+            if (product.getmImage() != null)
+                mImgMedicine.setImageBitmap(ImageUtils.getBitmap(product.getmImage()));
+            else
+                mImgMedicine.setImageResource(R.drawable.caja_medicamentos);
             mBtnAddMed.setText(getResources().getString(R.string.edit_product));
 
             mBtnAddMed.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +176,9 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
                 }
             });
         }
+
+        bitmap = ((BitmapDrawable)mImgMedicine.getDrawable()).getBitmap();
+
         return rootView;
     }
 
@@ -182,6 +200,25 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQ_CODE_PICK_IMAGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    InputStream imageStrean = null;
+                    try {
+                        bitmap = ImageUtils.decodeUri(selectedImage);
+                        mImgMedicine.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
+    }
+
     private void saveProduct() {
         String name = mEdtName.getText().toString();
         String description = mEdtDesc.getText().toString();
@@ -189,7 +226,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.caja_medicamentos;
+        byte[] image = ImageUtils.getByte(bitmap);
         Cursor cursor = ((SimpleCursorAdapter)spCategory.getAdapter()).getCursor();
         cursor.moveToPosition(spCategory.getSelectedItemPosition());
 
@@ -205,7 +242,7 @@ public class ManageProductFragment extends Fragment implements ManageProductPres
         String dosage = mEdtDosage.getText().toString();
         double price = Double.parseDouble(mEdtPrice.getText().toString());
         int stock = Integer.parseInt(mEdtStock.getText().toString());
-        int image = R.drawable.caja_medicamentos;
+        byte[] image = ImageUtils.getByte(bitmap);
         Cursor cursor = ((SimpleCursorAdapter)spCategory.getAdapter()).getCursor();
         cursor.moveToPosition(spCategory.getSelectedItemPosition());
 

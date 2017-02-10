@@ -1,7 +1,13 @@
 package com.barranquero.manageproductsrecycler.presenter;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.net.Uri;
+import android.util.Log;
+
 import com.barranquero.manageproductsrecycler.interfaces.ManagePharmacyPresenter;
 import com.barranquero.manageproductsrecycler.model.Pharmacy;
+import com.barranquero.manageproductsrecycler.provider.ManageProductContract;
 
 /**
  * @author José Antonio Barranquero Fernández
@@ -29,6 +35,14 @@ public class ManagePharmacyPresenterImpl implements ManagePharmacyPresenter {
     public void updatePharmacy(Pharmacy oldOne, Pharmacy newOne) {
         //TODO DatabaseManager.getInstance().deletePharmacy(oldOne);
         //DatabaseManager.getInstance().addPharmacy(newOne);
+        Uri uri = null;
+        try {
+            uri = ContentUris.withAppendedId(ManageProductContract.PharmacyEntry.CONTENT_URI, oldOne.getId());
+            //ContentValues contentValues =getContentCategory(newOne);
+            //myView.getContext().getContentResolver().update(uri, contentValues, null, null);
+        } catch (Exception e) {
+            Log.e("PHPMiAdmín", e.getLocalizedMessage());
+        }
     }
 
     @Override

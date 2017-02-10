@@ -69,6 +69,7 @@ public class ManageProductProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+        String rowId;
         switch (uriMatcher.match(uri)) {
             case CATEGORY:
                 sqLiteQueryBuilder.setTables(DatabaseContract.CategoryEntry.TABLE_NAME);
@@ -77,6 +78,11 @@ public class ManageProductProvider extends ContentProvider {
                 }
                 break;
             case CATEGORY_ID:
+                sqLiteQueryBuilder.setTables(DatabaseContract.CategoryEntry.TABLE_NAME);;
+                rowId = uri.getPathSegments().get(1);
+                selection = DatabaseContract.CategoryEntry._ID+"=?";
+                selectionArgs = new String[]{rowId};
+                //sqLiteDatabase.query(DatabaseContract.CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case PRODUCT:
                 sqLiteQueryBuilder.setTables(DatabaseContract.ProductEntry.TABLE_NAME);
@@ -99,7 +105,22 @@ public class ManageProductProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        String mimeType = null;
+        switch (uriMatcher.match(uri)) {
+            case CATEGORY:
+                mimeType = "vnd.android.cursor.dir/vnd.barranquero.manageproductsrecycler.category";
+                break;
+            case CATEGORY_ID:
+                mimeType = "vnd.android.cursor.item/vnd.barranquero.manageproductsrecycler.category";
+                break;
+            case PRODUCT:
+                mimeType = "vnd.android.cursor.dir/vnd.barranquero.manageproductsrecycler.product";
+                break;
+            case PRODUCT_ID:
+                mimeType = "vnd.android.cursor.item/vnd.barranquero.manageproductsrecycler.product";
+                break;
+        }
+        return mimeType;
     }
 
     @Nullable
@@ -133,6 +154,36 @@ public class ManageProductProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        int affected = -1;
+        String rowId;
+        switch (uriMatcher.match(uri)) {
+            case CATEGORY:
+                affected = sqLiteDatabase.update(DatabaseContract.CategoryEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case CATEGORY_ID:                                    //POS: 0    1
+                // content://com.barranquero.manageproductsrecycler/category/1
+                rowId = uri.getPathSegments().get(1);
+                selection = DatabaseContract.CategoryEntry._ID+"=?";
+                selectionArgs = new String[]{rowId};
+                affected = sqLiteDatabase.update(DatabaseContract.CategoryEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case PRODUCT:
+                affected = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case PRODUCT_ID:                                    //POS: 0    1
+            // content://com.barranquero.manageproductsrecycler/category/1
+            rowId = uri.getPathSegments().get(1);
+            selection = DatabaseContract.ProductEntry._ID+"=?";
+            selectionArgs = new String[]{rowId};
+            affected = sqLiteDatabase.update(DatabaseContract.ProductEntry.TABLE_NAME, values, selection, selectionArgs);
+            break;
+        }
+        if (affected != -1) {
+            // Notify the observers that an URI was modified
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            throw new SQLiteException(getContext().getResources().getString(R.string.error_update));
+        }
+        return affected;
     }
 }

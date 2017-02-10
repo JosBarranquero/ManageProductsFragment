@@ -46,7 +46,7 @@ public class DatabaseContract {
                         "%s TEXT NOT NULL," +
                         "%s REAL NOT NULL," +
                         "%s INTEGER NOT NULL," +
-                        "%s TEXT NOT NULL," +
+                        "%s BLOB," +
                         "%s INTEGER NOT NULL %s )",
                 TABLE_NAME, BaseColumns._ID,
                 COLUMN_NAME,
@@ -58,7 +58,7 @@ public class DatabaseContract {
                 COLUMN_IMAGE,
                 COLUMN_IDCATEGORY,
                 REFERENCE_ID_CATEGORY);
-        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'Coca', 'La del Rivera', 'Nesquick', '250g', 7.50, 1, 2130837590, 3), (2, 'Mi medicación', 'La de Paco', 'Apache2 roto', '250mg', 17.50, 13, 2130837590, 1)", TABLE_NAME);
+        public static final String SQL_INSERT_DEFAULT = String.format("INSERT INTO %s VALUES (1, 'Coca', 'La del Rivera', 'Nesquick', '250g', 7.50, 1, null, 3), (2, 'Mi medicación', 'La de Paco', 'Apache2 roto', '250mg', 17.50, 13, null, 1)", TABLE_NAME);
         public static final String SQL_DELETE_ENTRIES = String.format("DROP TABLE IF EXISTS %s", TABLE_NAME);
         public static final String DEFAULT_SORT = COLUMN_NAME;
     }

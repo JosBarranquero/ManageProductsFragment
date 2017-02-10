@@ -1,5 +1,6 @@
 package com.barranquero.manageproductsrecycler.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,7 +22,8 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
     private String mDosage;
     private double mPrice;
     private int mStock;
-    private int mImage;
+    private byte[] mImage;
+
     private int mCategory;
 
     public static final Comparator<Product> NAME_COMPARATOR = new Comparator<Product>() {
@@ -44,20 +46,8 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
         }
     };
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
-        @Override
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
-        }
 
-        @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
-        }
-    };
-
-
-    public Product(String mName, String mDescription, String mBrand, String mDosage, double mPrice, int mStock, int mImage, int mCategory) {
+    public Product(String mName, String mDescription, String mBrand, String mDosage, double mPrice, int mStock, byte[] mImage, int mCategory) {
         this.mName = mName;
         this.mDescription = mDescription;
         this.mBrand = mBrand;
@@ -70,34 +60,6 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
 
     public Product() {
 
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mId);
-        parcel.writeString(mName);
-        parcel.writeString(mDescription);
-        parcel.writeString(mBrand);
-        parcel.writeString(mDosage);
-        parcel.writeDouble(mPrice);
-        parcel.writeInt(mStock);
-        parcel.writeInt(mImage);
-    }
-
-    protected Product(Parcel in) {
-        mId = in.readInt();
-        mName = in.readString();
-        mDescription = in.readString();
-        mBrand = in.readString();
-        mDosage = in.readString();
-        mPrice = in.readDouble();
-        mStock = in.readInt();
-        mImage = in.readInt();
     }
 
     public int getmId() {
@@ -164,11 +126,11 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
         this.mStock = mStock;
     }
 
-    public int getmImage() {
+    public byte[] getmImage() {
         return mImage;
     }
 
-    public void setmImage(int mImage) {
+    public void setmImage(byte[] mImage) {
         this.mImage = mImage;
     }
 
@@ -207,4 +169,46 @@ public class Product implements Comparable<Product>, Parcelable, IProduct {
     public void setmCategory(int mCategory) {
         this.mCategory = mCategory;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mId);
+        dest.writeString(this.mName);
+        dest.writeString(this.mDescription);
+        dest.writeString(this.mBrand);
+        dest.writeString(this.mDosage);
+        dest.writeDouble(this.mPrice);
+        dest.writeInt(this.mStock);
+        dest.writeByteArray(this.mImage);
+        dest.writeInt(this.mCategory);
+    }
+
+    protected Product(Parcel in) {
+        this.mId = in.readInt();
+        this.mName = in.readString();
+        this.mDescription = in.readString();
+        this.mBrand = in.readString();
+        this.mDosage = in.readString();
+        this.mPrice = in.readDouble();
+        this.mStock = in.readInt();
+        this.mImage = in.createByteArray();
+        this.mCategory = in.readInt();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

@@ -16,6 +16,7 @@ import com.barranquero.manageproductsrecycler.R;
 //import com.barranquero.manageproductsrecycler.database.DatabaseManager;
 import com.barranquero.manageproductsrecycler.model.Pharmacy;
 import com.barranquero.manageproductsrecycler.model.Product;
+import com.barranquero.manageproductsrecycler.utils.ImageUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +52,10 @@ public class ProductAdapter extends /*ArrayAdapter<Product>*/ CursorAdapter {
         holder.txvProductName.setText(cursor.getString(1));
         holder.txvProductStock.setText(Integer.toString(cursor.getInt(6)) + "u. ");
         holder.txvProductPrice.setText(Double.toString(cursor.getDouble(5)) + "€");
-        holder.imgProduct.setImageResource(cursor.getInt(7));
+        if (cursor.getBlob(7) != null)
+            holder.imgProduct.setImageBitmap(ImageUtils.getBitmap(cursor.getBlob(7)));
+        else
+            holder.imgProduct.setImageResource(R.drawable.caja_medicamentos);
     }
 
     class ProductHolder {
@@ -69,7 +73,7 @@ public class ProductAdapter extends /*ArrayAdapter<Product>*/ CursorAdapter {
         product.setmDosage(getCursor().getString(4));
         product.setmPrice(getCursor().getDouble(5));
         product.setmStock(getCursor().getInt(6));
-        product.setmImage(getCursor().getInt(7));
+        product.setmImage(getCursor().getBlob(7));
         product.setmCategory(getCursor().getInt(8));
 
         return product;
